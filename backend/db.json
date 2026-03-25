@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin",
+      "email": "admin@fittrainer.com",
+      "password": "1234",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "name": "Nestor",
+      "email": "nestor@fittrainer.com",
+      "password": "1234",
+      "role": "user"
+    },
+    {
+      "id": 3,
+      "name": "Prueba",
+      "email": "prueba@fittrainer.com",
+      "password": "1234",
+      "role": "user"
+    }
+  ]
+}
