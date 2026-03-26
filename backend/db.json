@@ -35,5 +35,98 @@
       "password": "1234567",
       "role": "user"
     }
-  ]
+  ],
+
+  "exercises": [
+  {
+    "id": 1,
+    "name": "Press banca",
+    "muscleGroup": "pecho",
+    "description": "Ejercicio básico de empuje para desarrollar el pecho."
+  },
+  {
+    "id": 2,
+    "name": "Aperturas con mancuernas",
+    "muscleGroup": "pecho",
+    "description": "Ejercicio de aislamiento para estirar y trabajar el pecho."
+  },
+  {
+    "id": 3,
+    "name": "Dominadas",
+    "muscleGroup": "espalda",
+    "description": "Ejercicio de tracción para espalda y bíceps."
+  },
+  {
+    "id": 4,
+    "name": "Remo con barra",
+    "muscleGroup": "espalda",
+    "description": "Ejercicio para desarrollar la densidad de la espalda."
+  },
+  {
+    "id": 5,
+    "name": "Sentadilla",
+    "muscleGroup": "pierna",
+    "description": "Ejercicio compuesto clave para piernas y glúteos."
+  },
+  {
+    "id": 6,
+    "name": "Prensa de piernas",
+    "muscleGroup": "pierna",
+    "description": "Ejercicio guiado para trabajar cuádriceps y glúteos."
+  },
+  {
+    "id": 7,
+    "name": "Curl de bíceps con barra",
+    "muscleGroup": "biceps",
+    "description": "Ejercicio básico para desarrollar bíceps."
+  },
+  {
+    "id": 8,
+    "name": "Curl de bíceps con mancuernas",
+    "muscleGroup": "biceps",
+    "description": "Permite un trabajo más controlado y equilibrado de bíceps."
+  },
+  {
+    "id": 9,
+    "name": "Press militar",
+    "muscleGroup": "hombro",
+    "description": "Ejercicio de empuje para desarrollar hombros."
+  },
+  {
+    "id": 10,
+    "name": "Elevaciones laterales",
+    "muscleGroup": "hombro",
+    "description": "Ejercicio de aislamiento para deltoides laterales."
+  },
+  {
+    "id": 11,
+    "name": "Fondos en paralelas",
+    "muscleGroup": "triceps",
+    "description": "Ejercicio compuesto para pecho y tríceps."
+  },
+  {
+    "id": 12,
+    "name": "Extensión de tríceps en polea",
+    "muscleGroup": "triceps",
+    "description": "Ejercicio de aislamiento para tríceps."
+  },
+  {
+    "id": 13,
+    "name": "Peso muerto",
+    "muscleGroup": "espalda",
+    "description": "Ejercicio completo que trabaja espalda, glúteos y piernas."
+  },
+  {
+    "id": 14,
+    "name": "Zancadas",
+    "muscleGroup": "pierna",
+    "description": "Ejercicio unilateral para piernas y glúteos."
+  },
+  {
+    "id": 15,
+    "name": "Plancha abdominal",
+    "muscleGroup": "core",
+    "description": "Ejercicio isométrico para fortalecer el core."
+  }
+]
 }
