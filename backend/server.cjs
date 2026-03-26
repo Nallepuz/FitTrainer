@@ -1,28 +1,27 @@
-const fs = require("fs");
-const bodyParser = require("body-parser");
-const jsonServer = require('json-server')
-const jwt = require("jsonwebtoken");
+const fs = require("fs");                                     // Sirve para leer y esscribir archivos
+const bodyParser = require("body-parser");                    // Leer peticiones HTTP
+const jsonServer = require('json-server')                     // Crea una API REST a partir de un Json (db.json)
+const jwt = require("jsonwebtoken");                          // Crear y verificar token
 
+
+// Se crea el server y se indica la ruta (db.json)
 const server = jsonServer.create();
 const router = jsonServer.router("./db.json");
 
 server.use(bodyParser.urlencoded({ extended: true }));
-server.use(bodyParser.json());
+server.use(bodyParser.json());                                // Interpretar peticiones formato Json
 server.use(jsonServer.defaults());
 
+// Se define la palabra secreta y el tiempo de expiración
 const SECRET_KEY = "miPalabraSecreta123456789";
 const expiresIn = "1h";
 
-// JWT
-
-function createToken(payload) {
-  return jwt.sign(payload, SECRET_KEY, { expiresIn });
+// Crea un JWT
+function createToken(datosUser) {
+  return jwt.sign(datosUser, SECRET_KEY, { expiresIn });
 }
 
-// ENDPOINTS BASE DE DATOS -------------------------------------
-
 // USERS
-
 function getUsers() {
   const db = JSON.parse(fs.readFileSync("./db.json", "utf-8"));
   return db.users || [];
@@ -52,7 +51,7 @@ server.post("/auth/register", (req, res) => {
     return res.status(401).json({ message: "El email ya existe" });
   }
 
-  const lastItemId = users.length ? users[users.length - 1].id : 0;
+  const lastItemId = users.length ? users[users.length - 1].id : 0;   // Búsqueda del último usuario del array y obtener su id
 
   const newUser = {
     id: lastItemId + 1,
@@ -62,10 +61,11 @@ server.post("/auth/register", (req, res) => {
     role: "user"
   };
 
-  users.push(newUser);
-  saveUsers(users);
+  users.push(newUser);      // Lo añade al final del array
+  saveUsers(users);         // Lo guarda en el db.Json
 
-  const access_token = createToken({
+
+  const access_token = createToken({    // Crea el token al registrarse redireccionando
     id: newUser.id,
     name: newUser.name,
     email: newUser.email,

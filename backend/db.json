@@ -20,6 +20,20 @@
       "email": "prueba@fittrainer.com",
       "password": "1234",
       "role": "user"
+    },
+    {
+      "id": 4,
+      "name": "Prueba2",
+      "email": "prueba2@fittrainer.com",
+      "password": "1234",
+      "role": "user"
+    },
+    {
+      "id": 5,
+      "name": "Raul",
+      "email": "raul@fittrainer.com",
+      "password": "1234567",
+      "role": "user"
     }
   ]
 }
