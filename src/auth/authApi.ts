@@ -9,6 +9,8 @@ type LoginResponse = {
   jwt?: string;
 };
 
+// TOKEN
+
 function extractToken(data: LoginResponse): string {
   const token = data.token ?? data.access_token ?? data.jwt;
 
