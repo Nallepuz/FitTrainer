@@ -1,7 +1,20 @@
+import type { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
+import type { AppRole } from "../types/auth";
+import { useAuth } from "../context/authContext";
 
-export default function RequireRole({ children, allowedRoles }: any) {
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+export default function RequireRole({
+  children,
+  allowedRoles,
+}: {
+  children: ReactNode;
+  allowedRoles: AppRole[];
+}) {
+  const { token, user } = useAuth();
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -11,5 +24,5 @@ export default function RequireRole({ children, allowedRoles }: any) {
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  return <>{children}</>;
 }
