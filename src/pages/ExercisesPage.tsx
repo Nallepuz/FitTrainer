@@ -9,6 +9,7 @@ export default function ExercisesPage() {
   const [error, setError] = useState("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [muscleGroup, setMuscleGroup] = useState("all");
+  const [order, setOrder] = useState("az")
 
   const filteredExercises = exercises.filter((exercise) =>
     exercise.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
@@ -21,15 +22,29 @@ export default function ExercisesPage() {
     return exercise.muscleGroup.toLocaleLowerCase() === muscleGroup.toLocaleLowerCase();
   })
 
+  const sortedExercises = [...filterByCategory]
+
+  if (order === "az") {
+    sortedExercises.sort((a, b) => a.name.localeCompare(b.name));
+  }
+  if (order === "za") {
+    sortedExercises.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
   const options = [
-    {value: "all", label: "All"},
-    {value: "pecho", label: "Chest"},
-    {value: "espalda", label: "Back"},
-    {value: "pierna", label: "Legs"},
-    {value: "biceps", label: "Biceps"},
-    {value: "triceps", label: "Triceps"},
-    {value: "hombro", label: "Shoulder"},
-    {value: "core", label: "Core"}
+    { value: "all", label: "Todos" },
+    { value: "pecho", label: "Pecho" },
+    { value: "espalda", label: "Espalda" },
+    { value: "pierna", label: "Pierna" },
+    { value: "biceps", label: "Biceps" },
+    { value: "triceps", label: "Triceps" },
+    { value: "hombro", label: "Hombro" },
+    { value: "core", label: "Core" }
+  ]
+
+  const orderOptions = [
+    { value: "az", label: "A-Z" },
+    { value: "za", label: "Z-A" },
   ]
 
   useEffect(() => {
@@ -59,8 +74,9 @@ export default function ExercisesPage() {
     <>
       <h1>Ejercicios</h1>
       <SearchBar search={search} setSearch={setSearch} />
-      <Filter value={muscleGroup} setValue={setMuscleGroup} options={options}/>
-      {filterByCategory.map((exercise) => (
+      <Filter value={muscleGroup} setValue={setMuscleGroup} options={options} />
+      <Filter value={order} setValue={setOrder} options={orderOptions} />
+      {sortedExercises.map((exercise) => (
         <div key={exercise.id}>
           <h2>{exercise.name}</h2>
           <p>{exercise.muscleGroup}</p>
