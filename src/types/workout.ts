@@ -3,7 +3,7 @@ export interface Workout {
     title: string;
     description: string;
     duration: string;
-    level: number;
+    level: string;
   }
   
   export interface WorkoutExercise {
