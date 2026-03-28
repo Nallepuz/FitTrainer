@@ -1,15 +1,33 @@
 import { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import type { Workout as WorkoutType } from "../types/workout";
+import Filter from "../components/Filter";
+import "../pages/Workout.css"
+import WorkoutCard from "../components/WorkoutCard";
 
 export default function Workout() {
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [workouts, setWorkouts] = useState<WorkoutType[]>([]);
+    const [level, setLevel] = useState("all");
 
     const filterWorkouts = workouts.filter((workout) =>                                 // recorre todo el array y busca por title
         workout.title.toLocaleLowerCase().includes(search.toLocaleLowerCase()));        // solo los que incluyan el valor de search
+
+    const filterByLevel = filterWorkouts.filter((workout) => {
+        if (level === "all") {
+            return true
+        }
+        return workout.level.toLocaleLowerCase() === level.toLocaleLowerCase();
+    })
+
+    const options = [
+        { value: "all", label: "Todos" },
+        { value: "Principiante", label: "Principiante" },
+        { value: "Intermedio", label: "Intermedio" },
+        { value: "Experto", label: "Experto" },
+    ]
 
     useEffect(() => {
         fetch("http://localhost:8000/workouts").
@@ -37,15 +55,15 @@ export default function Workout() {
     return (
         <>
             <h1>Workout</h1>
-            <SearchBar search={search} setSearch={setSearch} />
-            {filterWorkouts.map((workout) => (
-                <div key={workout.id}>
-                    <h2>{workout.title}</h2>
-                    <p>{workout.description}</p>
-                    <p>{workout.duration}</p>
-                    <p>{workout.level}</p>
-                </div>
-            ))}
+            <div className="filters">
+                <SearchBar search={search} setSearch={setSearch} />
+                <Filter value={level} setValue={setLevel} options={options} />
+            </div>
+            <div className="workout-grid">
+                {filterByLevel.map((workout) => (
+                    <WorkoutCard key={workout.id} workout={workout} />
+                ))}
+            </div>
         </>
     );
 }
