@@ -41,6 +41,7 @@ export default function NavBar() {
             )}
             {user && (
                 <>
+                    <NavLink to="/workouts" style={getLinkStyle}> Workout </NavLink>
                     <NavLink to="/me" style={getLinkStyle}> Me </NavLink>
 
                     {user.role === "trainer" && (
