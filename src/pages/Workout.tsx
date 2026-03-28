@@ -4,6 +4,8 @@ import type { Workout as WorkoutType } from "../types/workout";
 
 export default function Workout() {
     const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
     const [workouts, setWorkouts] = useState<WorkoutType[]>([]);
 
     const filterWorkouts = workouts.filter((workout) =>                                 // recorre todo el array y busca por title
@@ -14,8 +16,23 @@ export default function Workout() {
             then((response) => response.json()).
             then((data) => {
                 setWorkouts(data);
+                setLoading(false);
+            })
+            .catch(() => {
+                setError("Error al cargar los entrenamientos");
+                setLoading(false);
             });
     }, []);
+
+    if (loading) {
+        return <p>Cargando entrenamientos...</p>
+    }
+    if (error) {
+        return <p>{error}</p>
+    }
+    if (filterWorkouts.length === 0) {
+        return <p>No se encontraron entrenamientos</p>;
+    }
 
     return (
         <>
