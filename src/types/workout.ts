@@ -1,9 +1,9 @@
 export interface Workout {
     id: number;
     title: string;
-    date: string;
-    notes: string;
-    userId: number;
+    description: string;
+    duration: string;
+    level: number;
   }
   
   export interface WorkoutExercise {
