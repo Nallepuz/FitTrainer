@@ -20,7 +20,7 @@ export default function Footer() {
       </p>
 
       <p style={{ margin: 0, fontSize: "12px", color: "#9e9588" }}>
-        © 2025 — Todos los derechos reservados
+        © 2026 — Todos los derechos reservados
       </p>
     </footer>
   );

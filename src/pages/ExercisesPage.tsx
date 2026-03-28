@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar"
 import Filter from "../components/Filter";
 import type { Exercise } from "../types/exercise";
+import ExerciseCard from "../components/ExerciseCard";
+import "../pages/ExercisesPage.css"
 
 export default function ExercisesPage() {
   const [search, setSearch] = useState("");
@@ -73,16 +75,16 @@ export default function ExercisesPage() {
   return (
     <>
       <h1>Ejercicios</h1>
-      <SearchBar search={search} setSearch={setSearch} />
-      <Filter value={muscleGroup} setValue={setMuscleGroup} options={options} />
-      <Filter value={order} setValue={setOrder} options={orderOptions} />
-      {sortedExercises.map((exercise) => (
-        <div key={exercise.id}>
-          <h2>{exercise.name}</h2>
-          <p>{exercise.muscleGroup}</p>
-          <p>{exercise.description}</p>
-        </div>
-      ))}
+      <div className="filters">
+        <SearchBar search={search} setSearch={setSearch} />
+        <Filter value={muscleGroup} setValue={setMuscleGroup} options={options} />
+        <Filter value={order} setValue={setOrder} options={orderOptions} />
+      </div>
+      <div className="exercise-grid">
+        {sortedExercises.map((exercise) => (
+          <ExerciseCard key={exercise.id} exercise={exercise} />
+        ))}
+      </div>
     </>
   );
 }
