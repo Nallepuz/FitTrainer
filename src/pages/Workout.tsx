@@ -82,7 +82,7 @@ export default function Workout() {
                 <SearchBar search={search} setSearch={setSearch} />
                 <Filter value={level} setValue={setLevel} options={options} />
             </div>
-            <Link to="/workouts/new" className="button">
+            <Link to="/workouts/new" className="button" >
                 Crear Entrenamiento
             </ Link>
             <div className="workout-grid">

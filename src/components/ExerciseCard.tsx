@@ -2,9 +2,12 @@ import type { Exercise } from "../types/exercise";
 
 type Props = {
     exercise: Exercise;
+    showAddButton?: boolean;
+    onAdd?: (exercise: Exercise) => void;
 };
 
-export default function ExerciseCard({ exercise }: Props) {
+export default function ExerciseCard({ exercise, showAddButton = false, onAdd }: Props) {
+
     return (
         <div
             style={{
@@ -44,6 +47,31 @@ export default function ExerciseCard({ exercise }: Props) {
             >
                 {exercise.description}
             </p>
-        </div>
+            <div style={{}}>
+            {showAddButton && (
+                <button style={{
+                    display: "inline - flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "#ff6b4a",
+                    color: "#ffffff",
+                    textDecoration: "none",
+                    borderRadius: "10px",
+                    padding: "10px 18px",
+                    fontSize: "0.95rem",
+                    fontWeight: "600",
+                    border: "none",
+                    cursor: "pointer",
+                    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                    transition: "transform 0.2s ease, opacity 0.2s ease",
+                    margin: "18px 0 28px"
+                }}
+                    onClick={() => onAdd?.(exercise)}>
+                    Añadir
+                </button>
+            )
+            }
+            </div>
+        </div >
     );
 }
