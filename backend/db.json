@@ -134,14 +134,16 @@
       "title": "Pecho y tríceps",
       "description": "Rutina básica de empuje",
       "duration": "45 min",
-      "level": "Intermedio"
+      "level": "Intermedio",
+      "userId": 1
     },
     {
       "id": 2,
       "title": "Espalda y bíceps",
       "description": "Rutina de tirón",
       "duration": "50 min",
-      "level": "Principiante"
+      "level": "Principiante",
+      "userId": 1
     }
   ]
 }

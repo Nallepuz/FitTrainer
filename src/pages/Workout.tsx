@@ -4,6 +4,7 @@ import type { Workout as WorkoutType } from "../types/workout";
 import Filter from "../components/Filter";
 import "../pages/Workout.css"
 import WorkoutCard from "../components/WorkoutCard";
+import { Link } from "react-router-dom";
 
 export default function Workout() {
     const [search, setSearch] = useState("");
@@ -59,6 +60,9 @@ export default function Workout() {
                 <SearchBar search={search} setSearch={setSearch} />
                 <Filter value={level} setValue={setLevel} options={options} />
             </div>
+            <Link to="/workouts/new" className="button">
+                Crear Entrenamiento
+            </ Link>
             <div className="workout-grid">
                 {filterByLevel.map((workout) => (
                     <WorkoutCard key={workout.id} workout={workout} />
