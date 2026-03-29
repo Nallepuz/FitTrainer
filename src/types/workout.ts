@@ -4,6 +4,7 @@ export interface Workout {
     description: string;
     duration: string;
     level: string;
+    userId: number;
   }
   
   export interface WorkoutExercise {

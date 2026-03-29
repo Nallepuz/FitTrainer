@@ -1,15 +1,15 @@
 const fs = require("fs");                                     // Sirve para leer y esscribir archivos
-const bodyParser = require("body-parser");                    // Leer peticiones HTTP
+const path = require("path");
 const jsonServer = require('json-server')                     // Crea una API REST a partir de un Json (db.json)
 const jwt = require("jsonwebtoken");                          // Crear y verificar token
 
+const dbPath = path.join(__dirname, "db.json");
 
 // Se crea el server y se indica la ruta (db.json)
 const server = jsonServer.create();
-const router = jsonServer.router("./db.json");
+const router = jsonServer.router(dbPath);
 
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(bodyParser.json());                                // Interpretar peticiones formato Json
+server.use(jsonServer.bodyParser);
 server.use(jsonServer.defaults());
 
 // Se define la palabra secreta y el tiempo de expiración
@@ -23,14 +23,14 @@ function createToken(datosUser) {
 
 // USERS
 function getUsers() {
-  const db = JSON.parse(fs.readFileSync("./db.json", "utf-8"));
+  const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
   return db.users || [];
 }
 
 function saveUsers(updatedUsers) {
-  const db = JSON.parse(fs.readFileSync("./db.json", "utf-8"));
+  const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
   db.users = updatedUsers;
-  fs.writeFileSync("./db.json", JSON.stringify(db, null, 2));
+  fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
 }
 
 function findUser(email, password) {
@@ -38,6 +38,44 @@ function findUser(email, password) {
     (user) => user.email === email && user.password === password
   );
 }
+
+// WORKOUTS
+function getWorkouts() {
+  const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
+  return db.workouts || [];
+}
+
+function saveWorkouts(updatedWorkouts) {
+  const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
+  db.workouts = updatedWorkouts;
+  fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
+}
+
+// CREACIÓN WORKOUTS
+server.post("/workouts", (req, res) => {
+  const { title, description, duration, level } = req.body;
+  const workouts = router.db.get("workouts").value();
+
+  const existingWorkout = workouts.find((workout) => workout.title === title);
+
+  if (existingWorkout) {
+    return res.status(409).json({ message: "El workout ya existe" });
+  }
+
+  const lastItemId = workouts.length ? workouts[workouts.length - 1].id : 0;   // Búsqueda del último usuario del array y obtener su id
+
+  const newWorkout = {
+    id: lastItemId + 1,
+    title,
+    description,
+    duration,
+    level
+  };
+
+  router.db.get("workouts").push(newWorkout).write();
+
+  return res.status(201).json({ message: "Workout creado correctamente" });
+});
 
 // AUTENTICACIÓN DEL USUARIO
 
@@ -48,7 +86,7 @@ server.post("/auth/register", (req, res) => {
   const existingUser = users.find((user) => user.email === email);
 
   if (existingUser) {
-    return res.status(401).json({ message: "El email ya existe" });
+    return res.status(409).json({ message: "El email ya existe" });
   }
 
   const lastItemId = users.length ? users[users.length - 1].id : 0;   // Búsqueda del último usuario del array y obtener su id

@@ -13,6 +13,7 @@ import RequireRole from "./auth/RequireRole";
 import ExercisesPage from "./pages/ExercisesPage";
 import Trainer from "./pages/Trainer";
 import Workout from "./pages/Workout";
+import CreateWorkout from "./pages/CreateWorkout";
 
 
 
@@ -30,6 +31,7 @@ export default function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/exercises" element={<ExercisesPage />} />
               <Route path="/workouts" element={<Workout />} />
+              <Route path="/workouts/new" element={<CreateWorkout />} />
               <Route path="/trainer" element={<Trainer />} />
 
               <Route path="/me" element={<RequireAuth> <MePage /> </RequireAuth>} />
