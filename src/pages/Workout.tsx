@@ -5,6 +5,7 @@ import Filter from "../components/Filter";
 import "../pages/Workout.css"
 import WorkoutCard from "../components/WorkoutCard";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 
 export default function Workout() {
     const [search, setSearch] = useState("");
@@ -12,9 +13,21 @@ export default function Workout() {
     const [error, setError] = useState("");
     const [workouts, setWorkouts] = useState<WorkoutType[]>([]);
     const [level, setLevel] = useState("all");
+    const { user, loadingSession } = useAuth();
 
-    const filterWorkouts = workouts.filter((workout) =>                                 // recorre todo el array y busca por title
-        workout.title.toLocaleLowerCase().includes(search.toLocaleLowerCase()));        // solo los que incluyan el valor de search
+    let visibleWorkouts: WorkoutType[] = [];
+
+    if (!user) {
+        visibleWorkouts = [];
+    } else if (user.role === "admin" || user.role === "trainer") {
+        visibleWorkouts = workouts;
+    } else {
+        visibleWorkouts = workouts.filter((workout) => workout.userId === user.id);
+    }
+
+
+    const filterWorkouts = visibleWorkouts.filter((workout) =>                                 // recorre todo el array y busca por title
+        workout.title.toLocaleLowerCase().includes(search.toLocaleLowerCase()));               // solo los que incluyan el valor de search
 
     const filterByLevel = filterWorkouts.filter((workout) => {
         if (level === "all") {
@@ -43,14 +56,23 @@ export default function Workout() {
             });
     }, []);
 
+    if (loadingSession) {
+        return <p>Cargando sesión...</p>;
+    }
     if (loading) {
         return <p>Cargando entrenamientos...</p>
     }
     if (error) {
         return <p>{error}</p>
     }
-    if (filterWorkouts.length === 0) {
-        return <p>No se encontraron entrenamientos</p>;
+    if (filterByLevel.length === 0) {
+        return(
+        <>
+            <p>No se encontraron entrenamientos</p>
+            <Link to="/workouts/new" className="button">
+                Crear Entrenamiento
+            </ Link>
+        </>);
     }
 
     return (

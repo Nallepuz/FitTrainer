@@ -34,6 +34,13 @@
       "email": "raul@fittrainer.com",
       "password": "1234567",
       "role": "user"
+    },
+    {
+      "id": 6,
+      "name": "david",
+      "email": "david@fittrainer.com",
+      "password": "1234",
+      "role": "user"
     }
   ],
   "exercises": [
@@ -144,6 +151,37 @@
       "duration": "50 min",
       "level": "Principiante",
       "userId": 1
+    },
+    {
+      "id": 3,
+      "title": "sadasd",
+      "description": "asdasdsad",
+      "duration": "11",
+      "level": "Intermedio"
+    },
+    {
+      "id": 4,
+      "title": "qwqqqq",
+      "description": "qqqqqqq",
+      "duration": "qqqqqqq",
+      "level": "Intermedio",
+      "userId": 2
+    },
+    {
+      "id": 5,
+      "title": "Entrenamiento Lunes",
+      "description": "Espalda y Biceps",
+      "duration": "45 min",
+      "level": "Principiante",
+      "userId": 6
+    },
+    {
+      "id": 6,
+      "title": "Entrenamiento Miércoles",
+      "description": "Espalda triceps",
+      "duration": "45 min",
+      "level": "Intermedio",
+      "userId": 6
     }
   ]
 }

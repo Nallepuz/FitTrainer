@@ -1,4 +1,5 @@
 import type { Workout } from "../types/workout";
+import { Link } from "react-router-dom";
 
 type Props = {
     workout: Workout;
@@ -40,6 +41,9 @@ export default function WorkoutCard({ workout }: Props) {
                     lineHeight: "1.4"}}>
                 {workout.level}
             </p>
+            <Link to="/workoutsExercises" className="button">
+                    Editar
+            </Link>
         </div>
     );
 }
