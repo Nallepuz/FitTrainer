@@ -56,11 +56,12 @@ server.post("/workouts", (req, res) => {
   const { title, description, duration, level } = req.body;
   const workouts = router.db.get("workouts").value();
 
+
   const existingWorkout = workouts.find((workout) => workout.title === title);
 
-  if (existingWorkout) {
-    return res.status(409).json({ message: "El workout ya existe" });
-  }
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.verify(token, SECRET_KEY);
+  const userId = decoded.id;
 
   const lastItemId = workouts.length ? workouts[workouts.length - 1].id : 0;   // Búsqueda del último usuario del array y obtener su id
 
@@ -69,7 +70,8 @@ server.post("/workouts", (req, res) => {
     title,
     description,
     duration,
-    level
+    level,
+    userId
   };
 
   router.db.get("workouts").push(newWorkout).write();

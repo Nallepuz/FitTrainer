@@ -69,7 +69,16 @@ export default function ExercisesPage() {
     return <p>{error}</p>
   }
   if (filterByCategory.length === 0) {
-    return <p>No se encontraron ejercicios</p>;
+    return (
+      <>
+        <h1>Ejercicios</h1>
+        <div className="filters">
+          <SearchBar search={search} setSearch={setSearch} />
+          <Filter value={muscleGroup} setValue={setMuscleGroup} options={options} />
+          <Filter value={order} setValue={setOrder} options={orderOptions} />
+        </div>
+        <p>No se encontraron ejercicios</p>
+      </>);
   }
 
   return (
