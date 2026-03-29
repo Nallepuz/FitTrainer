@@ -183,5 +183,87 @@
       "level": "Intermedio",
       "userId": 6
     }
+  ],
+  "workoutExercises": [
+    {
+      "id": 1,
+      "workoutId": 1,
+      "exerciseId": 2,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 2,
+      "workoutId": 1,
+      "exerciseId": 12,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 3,
+      "workoutId": 1,
+      "exerciseId": 13,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 4,
+      "workoutId": 1,
+      "exerciseId": 11,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 5,
+      "workoutId": 2,
+      "exerciseId": 2,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 6,
+      "workoutId": 2,
+      "exerciseId": 7,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 7,
+      "workoutId": 2,
+      "exerciseId": 8,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 8,
+      "workoutId": 2,
+      "exerciseId": 12,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 9,
+      "workoutId": 2,
+      "exerciseId": 10,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 10,
+      "workoutId": 2,
+      "exerciseId": 15,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    }
   ]
 }

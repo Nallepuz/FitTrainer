@@ -41,7 +41,7 @@ export default function WorkoutCard({ workout }: Props) {
                     lineHeight: "1.4"}}>
                 {workout.level}
             </p>
-            <Link to="/workoutsExercises" className="button">
+            <Link to={`/workoutsExercises/${workout.id}`} className="button">
                     Editar
             </Link>
         </div>

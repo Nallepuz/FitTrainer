@@ -14,6 +14,7 @@ import ExercisesPage from "./pages/ExercisesPage";
 import Trainer from "./pages/Trainer";
 import Workout from "./pages/Workout";
 import CreateWorkout from "./pages/CreateWorkout";
+import WorkoutExercise from "./pages/WorkoutExercise";
 
 
 
@@ -31,6 +32,7 @@ export default function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/exercises" element={<ExercisesPage />} />
               <Route path="/workouts" element={<Workout />} />
+              <Route path="/workoutsExercises/:id" element={<WorkoutExercise />} />
               <Route path="/workouts/new" element={<CreateWorkout />} />
               <Route path="/trainer" element={<Trainer />} />
 

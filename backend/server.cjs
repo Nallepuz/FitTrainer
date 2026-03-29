@@ -77,7 +77,37 @@ server.post("/workouts", (req, res) => {
   router.db.get("workouts").push(newWorkout).write();
 
   return res.status(201).json({ message: "Workout creado correctamente" });
+
 });
+
+// CREACIÓN WorkoutExercises
+server.post("/workoutExercises", (req, res) => {
+  const {workoutId, exerciseId} = req.body;
+  const workoutExercise = router.db.get("workoutExercises").value();
+  const sets = 3;
+  const reps = 10;
+  const weight = 0;
+
+  const existingWorkoutExercise= workoutExercise.find((workoutExercise) => workoutExercise.exerciseId === exerciseId && workoutExercise.workoutId === workoutId);
+  if (existingWorkoutExercise) {
+    return res.status(409).json({ message: "El ejercicio ya existe en el plan de entrenamiento" });
+  }
+
+  const lastItemId = workoutExercise.length ? workoutExercise[workoutExercise.length - 1].id : 0;   // Búsqueda del último usuario del array y obtener su id
+
+  const newWorkoutExercise = {
+    id: lastItemId + 1,
+    workoutId,
+    exerciseId,
+    sets,
+    reps,
+    weight
+  };
+
+  router.db.get("workoutExercises").push(newWorkoutExercise).write();
+
+  return res.status(201).json({ message: "WorkoutExercises creado correctamente" });
+})
 
 // AUTENTICACIÓN DEL USUARIO
 
