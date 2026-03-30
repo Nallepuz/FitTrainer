@@ -11,10 +11,10 @@ import AdminPage from "./pages/AdminPage";
 import RequireAuth from "./auth/RequireAuth";
 import RequireRole from "./auth/RequireRole";
 import ExercisesPage from "./pages/ExercisesPage";
-import Trainer from "./pages/Trainer";
 import Workout from "./pages/Workout";
 import CreateWorkout from "./pages/CreateWorkout";
 import WorkoutExercise from "./pages/WorkoutExercise";
+import CreateExercise from "./pages/CreateExercise";
 
 
 
@@ -31,10 +31,10 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/exercises" element={<ExercisesPage />} />
+              <Route path="/createExercise" element={<CreateExercise />} />
               <Route path="/workouts" element={<Workout />} />
               <Route path="/workoutsExercises/:id" element={<WorkoutExercise />} />
               <Route path="/workouts/new" element={<CreateWorkout />} />
-              <Route path="/trainer" element={<Trainer />} />
 
               <Route path="/me" element={<RequireAuth> <MePage /> </RequireAuth>} />
               <Route path="/admin" element={<RequireAuth> <RequireRole allowedRoles={["admin"]}><AdminPage />

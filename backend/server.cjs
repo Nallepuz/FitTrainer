@@ -79,16 +79,27 @@ server.post("/workouts", (req, res) => {
   return res.status(201).json({ message: "Workout creado correctamente" });
 
 });
+// ELIMINACIÓN WORKOUT
+server.delete("/workouts/:id", (req, res) => {
+  const id = number(req.params.id);
 
-// CREACIÓN WorkoutExercises
+  const existingWorkout = workout.find((workout) => workout.id === id);
+  if (!existingExercise) {
+    return res.status(404).json({ message: "El entrenamiento no existe" });
+  }
+
+  router.db.get("workouts").remoce({ id }).write();
+});
+
+// CREACIÓN WORKOUTEXERCISE
 server.post("/workoutExercises", (req, res) => {
-  const {workoutId, exerciseId} = req.body;
+  const { workoutId, exerciseId } = req.body;
   const workoutExercise = router.db.get("workoutExercises").value();
   const sets = 3;
   const reps = 10;
   const weight = 0;
 
-  const existingWorkoutExercise= workoutExercise.find((workoutExercise) => workoutExercise.exerciseId === exerciseId && workoutExercise.workoutId === workoutId);
+  const existingWorkoutExercise = workoutExercise.find((workoutExercise) => workoutExercise.exerciseId === exerciseId && workoutExercise.workoutId === workoutId);
   if (existingWorkoutExercise) {
     return res.status(409).json({ message: "El ejercicio ya existe en el plan de entrenamiento" });
   }
@@ -108,6 +119,78 @@ server.post("/workoutExercises", (req, res) => {
 
   return res.status(201).json({ message: "WorkoutExercises creado correctamente" });
 })
+// MODIFICAR WORKOUTEXERCISE
+server.put("/workoutExercises/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const { sets, reps, weight } = req.body;
+
+  const workoutExercise = router.db.get("workoutExercises").value();
+
+  const existingWorkoutExercise = workoutExercise.find((workoutExercise) => workoutExercise.id === id);
+  if (!existingWorkoutExercise) {
+    return res.status(404).json({ message: "El ejercicio no existe" });
+  }
+
+  existingWorkoutExercise.id
+  existingWorkoutExercise.workoutId
+  existingWorkoutExercise.exerciseId
+  existingWorkoutExercise.sets = sets;
+  existingWorkoutExercise.reps = reps;
+  existingWorkoutExercise.weight = weight
+
+  router.db.write();
+
+  return res.status(200).json({ message: "WorkoutExercises modificado correctamente" });
+})
+// ELIMINACIÓN WORKOUTEXERCISE
+server.delete("/workoutExercises/:id", (req, res) => {
+  const id = number(req.params.id);
+
+  const existingWorkoutExercise = workoutExercise.find((workoutExercise) => workoutExercise.id === id);
+  if (!existingWorkoutExercise) {
+    return res.status(404).json({ message: "El entrenamiento no existe" });
+  }
+
+  router.db.get("workoutExercise").remoce({ id }).write();
+});
+
+// CREACIÓN EJERCICIO
+server.post("/exercises", (req, res) => {
+  const { name, image, muscleGroup, description } = req.body;
+  const exercise = router.db.get("exercises").value();
+
+  const existingExercise = exercise.find((exercise) => exercise.name === name);
+  if (existingExercise) {
+    return res.status(409).json({ message: "El ejercicio ya existe" });
+  }
+
+  const lastItemId = exercise.length ? exercise[exercise.length - 1].id : 0;   // Búsqueda del último usuario del array y obtener su id
+
+  const newExercise = {
+    id: lastItemId + 1,
+    image,
+    name,
+    muscleGroup,
+    description,
+  };
+
+  router.db.get("exercises").push(newExercise).write();
+
+  return res.status(201).json({ message: "Ejercicio creado correctamente" });
+
+});
+
+// ELIMINACIÓN EJERCICIO
+server.delete("/exercises/:id", (req, res) => {
+  const id = number(req.params.id);
+
+  const existingExercise = exercise.find((exercise) => exercise.id === id);
+  if (!existingExercise) {
+    return res.status(404).json({ message: "El ejercicio no existe" });
+  }
+
+  router.db.get("exercises").remoce({ id }).write();
+});
 
 // AUTENTICACIÓN DEL USUARIO
 

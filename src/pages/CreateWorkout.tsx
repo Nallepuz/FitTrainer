@@ -30,15 +30,15 @@ export default function CreateWorkout() {
             },
             body: JSON.stringify(newWorkout),
         }).then((response) => {
-                if (!response.ok){
-                    throw new Error("Error al crear el entrenamiento");
-                }
-                return response.json();
-            }).then(() => {
-                navigate("/workouts");
-            }).catch((error) => {
-                setError("No se ha podido crear el entrenamiento");
-            })
+            if (!response.ok) {
+                throw new Error("Error al crear el entrenamiento");
+            }
+            return response.json();
+        }).then(() => {
+            navigate("/workouts");
+        }).catch((error) => {
+            setError("No se ha podido crear el entrenamiento");
+        })
     }
 
     return (

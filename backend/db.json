@@ -46,6 +46,7 @@
   "exercises": [
     {
       "id": 1,
+      "image": "https://i.blogs.es/85d668/bench-press-1/450_1000.jpg",
       "name": "Press banca",
       "muscleGroup": "pecho",
       "description": "Ejercicio básico de empuje para desarrollar el pecho."
@@ -53,120 +54,110 @@
     {
       "id": 2,
       "name": "Aperturas con mancuernas",
+      "image": "https://i.blogs.es/5c0b8f/aperturas/450_1000.webp",
       "muscleGroup": "pecho",
       "description": "Ejercicio de aislamiento para estirar y trabajar el pecho."
     },
     {
       "id": 3,
       "name": "Dominadas",
+      "image": "https://www.fisioterapiaconmueve.com/wp-content/uploads/2019/11/dominada.jpg",
       "muscleGroup": "espalda",
       "description": "Ejercicio de tracción para espalda y bíceps."
     },
     {
       "id": 4,
       "name": "Remo con barra",
+      "image": "https://i.blogs.es/99990c/remo-barra/450_1000.webp",
       "muscleGroup": "espalda",
       "description": "Ejercicio para desarrollar la densidad de la espalda."
     },
     {
       "id": 5,
       "name": "Sentadilla",
+      "image": "https://i.blogs.es/93405c/sentadilla/450_1000.jpg",
       "muscleGroup": "pierna",
       "description": "Ejercicio compuesto clave para piernas y glúteos."
     },
     {
       "id": 6,
       "name": "Prensa de piernas",
+      "image": "https://i.blogs.es/e89e80/prensa1/450_1000.webp",
       "muscleGroup": "pierna",
       "description": "Ejercicio guiado para trabajar cuádriceps y glúteos."
     },
     {
       "id": 7,
       "name": "Curl de bíceps con barra",
+      "image": "https://i.blogs.es/70fc57/bicep-curls-1/450_1000.jpg",
       "muscleGroup": "biceps",
       "description": "Ejercicio básico para desarrollar bíceps."
     },
     {
       "id": 8,
       "name": "Curl de bíceps con mancuernas",
+      "image": "https://i.pinimg.com/474x/f1/3c/3b/f13c3bbbdee01f1bcad15b6a82344407.jpg",
       "muscleGroup": "biceps",
       "description": "Permite un trabajo más controlado y equilibrado de bíceps."
     },
     {
       "id": 9,
       "name": "Press militar",
+      "image": "https://i.blogs.es/6485db/pres-hombro/600_315.jpg",
       "muscleGroup": "hombro",
       "description": "Ejercicio de empuje para desarrollar hombros."
     },
     {
       "id": 10,
       "name": "Elevaciones laterales",
+      "image": "https://i.blogs.es/7ad688/ejercicio21-3/450_1000.jpg",
       "muscleGroup": "hombro",
       "description": "Ejercicio de aislamiento para deltoides laterales."
     },
     {
       "id": 11,
       "name": "Fondos en paralelas",
+      "image": "https://i.blogs.es/e7c213/dips/450_1000.webp",
       "muscleGroup": "triceps",
       "description": "Ejercicio compuesto para pecho y tríceps."
     },
     {
       "id": 12,
       "name": "Extensión de tríceps en polea",
+      "image": "https://i.blogs.es/a4427d/triceps/450_1000.webp",
       "muscleGroup": "triceps",
       "description": "Ejercicio de aislamiento para tríceps."
     },
     {
       "id": 13,
       "name": "Peso muerto",
+      "image": "https://hips.hearstapps.com/hmg-prod/images/barbell-deadlift-66e96571889ed.jpg?resize=980:*",
       "muscleGroup": "espalda",
       "description": "Ejercicio completo que trabaja espalda, glúteos y piernas."
     },
     {
       "id": 14,
       "name": "Zancadas",
+      "image": "https://i.blogs.es/c1905b/zancada1/450_1000.webp",
       "muscleGroup": "pierna",
       "description": "Ejercicio unilateral para piernas y glúteos."
     },
     {
       "id": 15,
       "name": "Plancha abdominal",
+      "image": "https://i.ytimg.com/vi/OuFDY0fwlvk/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLANmgwSS61pFUIhqPHyM_E5_oB2oA",
       "muscleGroup": "core",
       "description": "Ejercicio isométrico para fortalecer el core."
+    },
+    {
+      "id": 16,
+      "image": "https://i.blogs.es/d41897/press-frances/450_1000.jpg",
+      "name": "Press Frances",
+      "muscleGroup": "triceps",
+      "description": "Ejercicio de extensión de triceps en banco"
     }
   ],
   "workouts": [
-    {
-      "id": 1,
-      "title": "Pecho y tríceps",
-      "description": "Rutina básica de empuje",
-      "duration": "45 min",
-      "level": "Intermedio",
-      "userId": 1
-    },
-    {
-      "id": 2,
-      "title": "Espalda y bíceps",
-      "description": "Rutina de tirón",
-      "duration": "50 min",
-      "level": "Principiante",
-      "userId": 1
-    },
-    {
-      "id": 3,
-      "title": "sadasd",
-      "description": "asdasdsad",
-      "duration": "11",
-      "level": "Intermedio"
-    },
-    {
-      "id": 4,
-      "title": "qwqqqq",
-      "description": "qqqqqqq",
-      "duration": "qqqqqqq",
-      "level": "Intermedio",
-      "userId": 2
-    },
     {
       "id": 5,
       "title": "Entrenamiento Lunes",
@@ -187,7 +178,7 @@
   "workoutExercises": [
     {
       "id": 1,
-      "workoutId": 1,
+      "workoutId": 6,
       "exerciseId": 2,
       "sets": 3,
       "reps": 10,
@@ -195,72 +186,16 @@
     },
     {
       "id": 2,
-      "workoutId": 1,
-      "exerciseId": 12,
-      "sets": 3,
-      "reps": 10,
-      "weight": 0
-    },
-    {
-      "id": 3,
-      "workoutId": 1,
-      "exerciseId": 13,
-      "sets": 3,
-      "reps": 10,
-      "weight": 0
-    },
-    {
-      "id": 4,
-      "workoutId": 1,
-      "exerciseId": 11,
-      "sets": 3,
-      "reps": 10,
-      "weight": 0
-    },
-    {
-      "id": 5,
-      "workoutId": 2,
-      "exerciseId": 2,
-      "sets": 3,
-      "reps": 10,
-      "weight": 0
-    },
-    {
-      "id": 6,
-      "workoutId": 2,
+      "workoutId": 6,
       "exerciseId": 7,
       "sets": 3,
       "reps": 10,
       "weight": 0
     },
     {
-      "id": 7,
-      "workoutId": 2,
+      "id": 3,
+      "workoutId": 6,
       "exerciseId": 8,
-      "sets": 3,
-      "reps": 10,
-      "weight": 0
-    },
-    {
-      "id": 8,
-      "workoutId": 2,
-      "exerciseId": 12,
-      "sets": 3,
-      "reps": 10,
-      "weight": 0
-    },
-    {
-      "id": 9,
-      "workoutId": 2,
-      "exerciseId": 10,
-      "sets": 3,
-      "reps": 10,
-      "weight": 0
-    },
-    {
-      "id": 10,
-      "workoutId": 2,
-      "exerciseId": 15,
       "sets": 3,
       "reps": 10,
       "weight": 0

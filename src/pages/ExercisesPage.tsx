@@ -4,6 +4,7 @@ import Filter from "../components/Filter";
 import type { Exercise } from "../types/exercise";
 import ExerciseCard from "../components/ExerciseCard";
 import "../pages/ExercisesPage.css"
+import { useAuth } from "../context/authContext";
 
 export default function ExercisesPage() {
   const [search, setSearch] = useState("");
@@ -11,7 +12,8 @@ export default function ExercisesPage() {
   const [error, setError] = useState("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [muscleGroup, setMuscleGroup] = useState("all");
-  const [order, setOrder] = useState("az")
+  const [order, setOrder] = useState("az");
+  const { user } = useAuth();
 
   const filteredExercises = exercises.filter((exercise) =>
     exercise.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
@@ -48,6 +50,27 @@ export default function ExercisesPage() {
     { value: "az", label: "A-Z" },
     { value: "za", label: "Z-A" },
   ]
+
+  function handleDelete(id: number) {
+    const token = localStorage.getItem("auth_token");
+  
+    fetch(`http://localhost:8000/exercises/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("No se pudo borrar");
+        }
+  
+        setExercises((prev) => prev.filter((exercise) => exercise.id !== id));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   useEffect(() => {
     fetch("http://localhost:8000/exercises").
@@ -91,7 +114,7 @@ export default function ExercisesPage() {
       </div>
       <div className="exercise-grid">
         {sortedExercises.map((exercise) => (
-          <ExerciseCard key={exercise.id} exercise={exercise} />
+          <ExerciseCard key={exercise.id} exercise={exercise} onDelete={handleDelete} showDeleteButton={user?.role === "trainer" || user?.role === "admin"}/>
         ))}
       </div>
     </>
