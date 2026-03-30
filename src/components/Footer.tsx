@@ -12,7 +12,7 @@ export default function Footer() {
       }}
     >
       <p style={{ margin: 0, fontSize: "14px", fontWeight: 500 }}>
-        Urban Store
+        FitTrainer
       </p>
 
       <p style={{ margin: "4px 0", fontSize: "12px", color: "#cfc6b8" }}>

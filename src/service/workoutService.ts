@@ -4,7 +4,12 @@ const API_URL = "http://localhost:8000/workouts";
 const TOKEN_STORAGE_KEY = "auth_token";
 
 export async function getAllWorkouts(): Promise<Workout[]> {
-  const response = await fetch(API_URL);
+  const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+  const response = await fetch(API_URL, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
 
   if (!response.ok) {
     throw new Error("No se pudieron cargar los entrenamientos");

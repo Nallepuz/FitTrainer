@@ -16,7 +16,7 @@ server.use(jsonServer.defaults());
 const SECRET_KEY = "miPalabraSecreta123456789";
 const expiresIn = "1h";
 
-// Crea un JWT
+// JWT ---------------------------------------------------------------------------------------------------------
 function createToken(datosUser) {
   return jwt.sign(datosUser, SECRET_KEY, { expiresIn });
 }
@@ -50,8 +50,11 @@ function requireRole(...allowedRoles) {
     next();
   };
 }
+// -------------------------------------------------------------------------------------------------------------
 
-// USERS
+
+
+// USERS -------------------------------------------------------------------------------------------------------
 function getUsers() {
   const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
   return db.users || [];
@@ -69,19 +72,25 @@ function findUser(email, password) {
   );
 }
 
-// WORKOUTS
+server.get("/users", authenticateToken, requireRole("admin"), (req, res) => {
+  const users = getUsers();
+  return res.status(200).json(users);
+});
+// -------------------------------------------------------------------------------------------------------------
+
+
+
+// WORKOUTS ----------------------------------------------------------------------------------------------------
 function getWorkouts() {
   const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
   return db.workouts || [];
 }
 
-function saveWorkouts(updatedWorkouts) {
-  const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
-  db.workouts = updatedWorkouts;
-  fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
-}
+server.get("/workouts", authenticateToken, requireRole("admin", "trainer", "user"), (req, res) => {
+  const workouts = getWorkouts();
+  return res.status(200).json(workouts);
+});
 
-// CREACIÓN WORKOUTS
 server.post("/workouts", authenticateToken, (req, res) => {
   const { title, description, duration, level } = req.body;
   const workouts = router.db.get("workouts").value();
@@ -104,7 +113,7 @@ server.post("/workouts", authenticateToken, (req, res) => {
   return res.status(201).json({ message: "Workout creado correctamente" });
 
 });
-// ELIMINACIÓN WORKOUT
+
 server.delete("/workouts/:id", authenticateToken, (req, res) => {
   const id = Number(req.params.id);
   const workouts = router.db.get("workouts").value();
@@ -136,8 +145,11 @@ server.delete("/workouts/:id", authenticateToken, (req, res) => {
 
   return res.status(200).json({ message: "Entrenamiento borrado correctamente" });
 });
+// -------------------------------------------------------------------------------------------------------------
 
-// CREACIÓN WORKOUTEXERCISE
+
+
+// WORKOUTEXERCISES --------------------------------------------------------------------------------------------
 server.post("/workoutExercises", authenticateToken, (req, res) => {
   const { workoutId, exerciseId } = req.body;
   const workoutExercise = router.db.get("workoutExercises").value();
@@ -165,7 +177,7 @@ server.post("/workoutExercises", authenticateToken, (req, res) => {
 
   return res.status(201).json({ message: "WorkoutExercises creado correctamente" });
 })
-// MODIFICAR WORKOUTEXERCISE
+
 server.put("/workoutExercises/:id", authenticateToken, (req, res) => {
   const id = Number(req.params.id);
   const { sets, reps, weight } = req.body;
@@ -188,7 +200,7 @@ server.put("/workoutExercises/:id", authenticateToken, (req, res) => {
 
   return res.status(200).json({ message: "WorkoutExercises modificado correctamente" });
 })
-// ELIMINACIÓN WORKOUTEXERCISE
+
 server.delete("/workoutExercises/:id", authenticateToken, (req, res) => {
   const id = Number(req.params.id);
   const workoutExercises = router.db.get("workoutExercises").value();
@@ -202,8 +214,21 @@ server.delete("/workoutExercises/:id", authenticateToken, (req, res) => {
   router.db.assign({ workoutExercises: updatedWorkoutExercise }).write();
   return res.status(200).json({ message: "Ejercicio borrado del entrenamiento correctamente" });
 });
+// -------------------------------------------------------------------------------------------------------------
 
-// CREACIÓN EJERCICIO
+
+
+// EJERCICIOS --------------------------------------------------------------------------------------------------
+function getExercises() {
+  const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
+  return db.exercises || [];
+}
+
+server.get("/exercises", (req, res) => {
+  const exercises = getExercises();
+  return res.status(200).json(exercises);
+});
+
 server.post("/exercises", authenticateToken, requireRole("trainer", "admin"), (req, res) => {
   const { name, image, muscleGroup, description } = req.body;
   const exercise = router.db.get("exercises").value();
@@ -229,7 +254,6 @@ server.post("/exercises", authenticateToken, requireRole("trainer", "admin"), (r
 
 });
 
-// ELIMINACIÓN EJERCICIO
 server.delete("/exercises/:id", authenticateToken, requireRole("trainer", "admin"), (req, res) => {
   const id = Number(req.params.id);
   const exercises = router.db.get("exercises").value();
@@ -243,9 +267,11 @@ server.delete("/exercises/:id", authenticateToken, requireRole("trainer", "admin
   router.db.assign({ exercises: updatedExercises }).write();
   return res.status(200).json({ message: "Ejercicio borrado correctamente" });
 });
+// -------------------------------------------------------------------------------------------------------------
 
-// AUTENTICACIÓN DEL USUARIO
 
+
+// LOGIN -------------------------------------------------------------------------------------------------------
 server.post("/auth/register", (req, res) => {
   const { name, email, password } = req.body;
   const users = getUsers();
@@ -306,6 +332,8 @@ server.get("/me", authenticateToken, (req, res) => {
     role: req.user.role
   });
 });
+// -------------------------------------------------------------------------------------------------------------
+
 
 server.use(router);
 
