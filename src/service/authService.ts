@@ -1,15 +1,10 @@
 import type { AuthUser, LoginRequest, RegisterRequest } from "../types/auth";
 
-const API_BASE_URL = "http://localhost:8000";
-const TOKEN_STORAGE_KEY = "auth_token";
-
 type LoginResponse = {
   token?: string;
   access_token?: string;
   jwt?: string;
 };
-
-// TOKEN
 
 function extractToken(data: LoginResponse): string {
   const token = data.token ?? data.access_token ?? data.jwt;
@@ -21,20 +16,20 @@ function extractToken(data: LoginResponse): string {
   return token;
 }
 
-export function saveToken(token: string) {
-  localStorage.setItem(TOKEN_STORAGE_KEY, token);
+export function saveToken(token: string): void {
+  localStorage.setItem("auth_token", token);
 }
 
-export function getToken() {
-  return localStorage.getItem(TOKEN_STORAGE_KEY);
+export function getToken(): string | null {
+  return localStorage.getItem("auth_token");
 }
 
-export function clearToken() {
-  localStorage.removeItem(TOKEN_STORAGE_KEY);
+export function clearToken(): void {
+  localStorage.removeItem("auth_token");
 }
 
 export async function loginRequest(payload: LoginRequest): Promise<string> {
-  const response = await fetch(`${API_BASE_URL}/auth/login`, {
+  const response = await fetch("http://localhost:8000/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -51,7 +46,7 @@ export async function loginRequest(payload: LoginRequest): Promise<string> {
 }
 
 export async function registerRequest(payload: RegisterRequest): Promise<string> {
-  const response = await fetch(`${API_BASE_URL}/auth/register`, {
+  const response = await fetch("http://localhost:8000/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -68,7 +63,7 @@ export async function registerRequest(payload: RegisterRequest): Promise<string>
 }
 
 export async function meRequest(token: string): Promise<AuthUser> {
-  const response = await fetch(`${API_BASE_URL}/me`, {
+  const response = await fetch("http://localhost:8000/me", {
     headers: {
       Authorization: `Bearer ${token}`,
     },

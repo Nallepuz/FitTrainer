@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode, } from "react";
 import type { AuthUser, LoginRequest, RegisterRequest, } from "../types/auth";
-import { clearToken, getToken, loginRequest, meRequest, registerRequest, saveToken, } from "../auth/authApi";
+import {clearToken,getToken,loginRequest,meRequest,registerRequest,saveToken,} from "../service/authService";
 
 type AuthContextType = {
     user: AuthUser | null;

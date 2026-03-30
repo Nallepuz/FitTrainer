@@ -120,7 +120,7 @@ export default function Workout() {
             key={workout.id}
             workout={workout}
             onDelete={handleDelete}
-            showDeleteButton={user?.role === "trainer" || user?.role === "admin"}
+            showDeleteButton={user?.role === "trainer" || user?.role === "admin" || user?.role === "user"}
           />
         ))}
       </div>

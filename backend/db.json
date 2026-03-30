@@ -165,11 +165,19 @@
       "duration": "45 min",
       "level": "Principiante",
       "userId": 6
+    },
+    {
+      "id": 6,
+      "title": "asd",
+      "description": "asd",
+      "duration": "asd",
+      "level": "Principiante",
+      "userId": 2
     }
   ],
   "workoutExercises": [
     {
-      "id": 1,
+      "id": 7,
       "workoutId": 6,
       "exerciseId": 2,
       "sets": 3,
@@ -177,7 +185,7 @@
       "weight": 0
     },
     {
-      "id": 2,
+      "id": 8,
       "workoutId": 6,
       "exerciseId": 7,
       "sets": 3,
@@ -185,7 +193,7 @@
       "weight": 0
     },
     {
-      "id": 3,
+      "id": 9,
       "workoutId": 6,
       "exerciseId": 8,
       "sets": 3,
@@ -193,20 +201,12 @@
       "weight": 0
     },
     {
-      "id": 5,
+      "id": 10,
       "workoutId": 5,
-      "exerciseId": 7,
-      "sets": 3,
-      "reps": 10,
-      "weight": 0
-    },
-    {
-      "id": 6,
-      "workoutId": 5,
-      "exerciseId": 8,
-      "sets": 3,
-      "reps": 10,
-      "weight": 0
+      "exerciseId": 2,
+      "sets": 23,
+      "reps": 23,
+      "weight": 3
     }
   ]
 }

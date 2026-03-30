@@ -20,6 +20,36 @@ const expiresIn = "1h";
 function createToken(datosUser) {
   return jwt.sign(datosUser, SECRET_KEY, { expiresIn });
 }
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || authHeader.split(" ")[0] !== "Bearer") {
+    return res.status(401).json({ message: "Token no proporcionado o formato inválido" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "El token ha expirado o es inválido" });
+  }
+}
+function requireRole(...allowedRoles) {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ message: "Usuario no autenticado" });
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({ message: "No tienes permisos para realizar esta acción" });
+    }
+
+    next();
+  };
+}
 
 // USERS
 function getUsers() {
@@ -52,16 +82,11 @@ function saveWorkouts(updatedWorkouts) {
 }
 
 // CREACIÓN WORKOUTS
-server.post("/workouts", (req, res) => {
+server.post("/workouts", authenticateToken, (req, res) => {
   const { title, description, duration, level } = req.body;
   const workouts = router.db.get("workouts").value();
 
-
-  const existingWorkout = workouts.find((workout) => workout.title === title);
-
-  const token = req.headers.authorization.split(" ")[1];
-  const decoded = jwt.verify(token, SECRET_KEY);
-  const userId = decoded.id;
+  const userId = req.user.id;
 
   const lastItemId = workouts.length ? workouts[workouts.length - 1].id : 0;   // Búsqueda del último usuario del array y obtener su id
 
@@ -80,22 +105,40 @@ server.post("/workouts", (req, res) => {
 
 });
 // ELIMINACIÓN WORKOUT
-server.delete("/workouts/:id", (req, res) => {
+server.delete("/workouts/:id", authenticateToken, (req, res) => {
   const id = Number(req.params.id);
   const workouts = router.db.get("workouts").value();
 
   const existingWorkout = workouts.find((workout) => workout.id === id);
+
   if (!existingWorkout) {
     return res.status(404).json({ message: "El entrenamiento no existe" });
   }
 
+  const isAdmin = req.user.role === "admin";
+  const isTrainer = req.user.role === "trainer";
+  const isOwner = req.user.role === "user" && existingWorkout.userId === req.user.id;
+
+  if (!isAdmin && !isTrainer && !isOwner) {
+    return res.status(403).json({ message: "No tienes permisos para borrar este entrenamiento" });
+  }
+
   const updatedWorkout = workouts.filter((workout) => workout.id !== id);
-  router.db.assign({ workouts: updatedWorkout }).write();
+  const workoutExercises = router.db.get("workoutExercises").value();
+  const updatedWorkoutExercises = workoutExercises.filter(
+    (item) => item.workoutId !== id
+  );
+
+  router.db.assign({
+    workouts: updatedWorkout,
+    workoutExercises: updatedWorkoutExercises,
+  }).write();
+
   return res.status(200).json({ message: "Entrenamiento borrado correctamente" });
 });
 
 // CREACIÓN WORKOUTEXERCISE
-server.post("/workoutExercises", (req, res) => {
+server.post("/workoutExercises", authenticateToken, (req, res) => {
   const { workoutId, exerciseId } = req.body;
   const workoutExercise = router.db.get("workoutExercises").value();
   const sets = 3;
@@ -123,7 +166,7 @@ server.post("/workoutExercises", (req, res) => {
   return res.status(201).json({ message: "WorkoutExercises creado correctamente" });
 })
 // MODIFICAR WORKOUTEXERCISE
-server.put("/workoutExercises/:id", (req, res) => {
+server.put("/workoutExercises/:id", authenticateToken, (req, res) => {
   const id = Number(req.params.id);
   const { sets, reps, weight } = req.body;
 
@@ -146,7 +189,7 @@ server.put("/workoutExercises/:id", (req, res) => {
   return res.status(200).json({ message: "WorkoutExercises modificado correctamente" });
 })
 // ELIMINACIÓN WORKOUTEXERCISE
-server.delete("/workoutExercises/:id", (req, res) => {
+server.delete("/workoutExercises/:id", authenticateToken, (req, res) => {
   const id = Number(req.params.id);
   const workoutExercises = router.db.get("workoutExercises").value();
 
@@ -161,7 +204,7 @@ server.delete("/workoutExercises/:id", (req, res) => {
 });
 
 // CREACIÓN EJERCICIO
-server.post("/exercises", (req, res) => {
+server.post("/exercises", authenticateToken, requireRole("trainer", "admin"), (req, res) => {
   const { name, image, muscleGroup, description } = req.body;
   const exercise = router.db.get("exercises").value();
 
@@ -187,7 +230,7 @@ server.post("/exercises", (req, res) => {
 });
 
 // ELIMINACIÓN EJERCICIO
-server.delete("/exercises/:id", (req, res) => {
+server.delete("/exercises/:id", authenticateToken, requireRole("trainer", "admin"), (req, res) => {
   const id = Number(req.params.id);
   const exercises = router.db.get("exercises").value();
 
@@ -255,26 +298,13 @@ server.post("/auth/login", (req, res) => {
   return res.status(200).json({ access_token });
 });
 
-server.get("/me", (req, res) => {
-  if (
-    req.headers.authorization === undefined ||
-    req.headers.authorization.split(" ")[0] !== "Bearer"
-  ) {
-    return res.status(401).json({ message: "Error en la autorización" });
-  }
-
-  try {
-    const token = req.headers.authorization.split(" ")[1];
-    const decoded = jwt.verify(token, SECRET_KEY);
-    return res.status(200).json({
-      id: decoded.id,
-      name: decoded.name,
-      email: decoded.email,
-      role: decoded.role
-    });
-  } catch (err) {
-    return res.status(401).json({ message: "El token ha expirado o es inválido" });
-  }
+server.get("/me", authenticateToken, (req, res) => {
+  return res.status(200).json({
+    id: req.user.id,
+    name: req.user.name,
+    email: req.user.email,
+    role: req.user.role
+  });
 });
 
 server.use(router);

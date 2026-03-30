@@ -104,6 +104,16 @@ export default function WorkoutExercise() {
   async function addExercise(exercise: Exercise) {
     try {
       setActionError("");
+  
+      const alreadyExists = workoutExercises.some(
+        (item) => item.exerciseId === exercise.id
+      );
+  
+      if (alreadyExists) {
+        setActionError("Ese ejercicio ya está añadido al entrenamiento");
+        return;
+      }
+  
       await createWorkoutExercise(workoutId, exercise.id);
       await loadWorkoutExercises();
     } catch (error) {
