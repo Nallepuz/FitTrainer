@@ -165,14 +165,6 @@
       "duration": "45 min",
       "level": "Principiante",
       "userId": 6
-    },
-    {
-      "id": 6,
-      "title": "Entrenamiento Miércoles",
-      "description": "Espalda triceps",
-      "duration": "45 min",
-      "level": "Intermedio",
-      "userId": 6
     }
   ],
   "workoutExercises": [
@@ -195,6 +187,22 @@
     {
       "id": 3,
       "workoutId": 6,
+      "exerciseId": 8,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 5,
+      "workoutId": 5,
+      "exerciseId": 7,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 6,
+      "workoutId": 5,
       "exerciseId": 8,
       "sets": 3,
       "reps": 10,
