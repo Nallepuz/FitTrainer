@@ -162,7 +162,7 @@
       "id": 5,
       "title": "Entrenamiento Lunes",
       "description": "Espalda y Biceps",
-      "duration": "45 min",
+      "duration": "45",
       "level": "Principiante",
       "userId": 6
     },
@@ -170,7 +170,7 @@
       "id": 6,
       "title": "asd",
       "description": "asd",
-      "duration": "asd",
+      "duration": "38",
       "level": "Principiante",
       "userId": 2
     }
