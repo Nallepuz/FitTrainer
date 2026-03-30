@@ -81,14 +81,17 @@ server.post("/workouts", (req, res) => {
 });
 // ELIMINACIÓN WORKOUT
 server.delete("/workouts/:id", (req, res) => {
-  const id = number(req.params.id);
+  const id = Number(req.params.id);
+  const workouts = router.db.get("workouts").value();
 
-  const existingWorkout = workout.find((workout) => workout.id === id);
-  if (!existingExercise) {
+  const existingWorkout = workouts.find((workout) => workout.id === id);
+  if (!existingWorkout) {
     return res.status(404).json({ message: "El entrenamiento no existe" });
   }
 
-  router.db.get("workouts").remoce({ id }).write();
+  const updatedWorkout = workouts.filter((workout) => workout.id !== id);
+  router.db.assign({ workouts: updatedWorkout }).write();
+  return res.status(200).json({ message: "Entrenamiento borrado correctamente" });
 });
 
 // CREACIÓN WORKOUTEXERCISE
@@ -144,14 +147,17 @@ server.put("/workoutExercises/:id", (req, res) => {
 })
 // ELIMINACIÓN WORKOUTEXERCISE
 server.delete("/workoutExercises/:id", (req, res) => {
-  const id = number(req.params.id);
+  const id = Number(req.params.id);
+  const workoutExercises = router.db.get("workoutExercises").value();
 
-  const existingWorkoutExercise = workoutExercise.find((workoutExercise) => workoutExercise.id === id);
+  const existingWorkoutExercise = workoutExercises.find((workoutExercise) => workoutExercise.id === id);
   if (!existingWorkoutExercise) {
-    return res.status(404).json({ message: "El entrenamiento no existe" });
+    return res.status(404).json({ message: "El ejercicio del entrenamiento no existe" });
   }
 
-  router.db.get("workoutExercise").remoce({ id }).write();
+  const updatedWorkoutExercise = workoutExercises.filter((workoutExercise) => workoutExercise.id !== id);
+  router.db.assign({ workoutExercises: updatedWorkoutExercise }).write();
+  return res.status(200).json({ message: "Ejercicio borrado del entrenamiento correctamente" });
 });
 
 // CREACIÓN EJERCICIO
@@ -182,14 +188,17 @@ server.post("/exercises", (req, res) => {
 
 // ELIMINACIÓN EJERCICIO
 server.delete("/exercises/:id", (req, res) => {
-  const id = number(req.params.id);
+  const id = Number(req.params.id);
+  const exercises = router.db.get("exercises").value();
 
-  const existingExercise = exercise.find((exercise) => exercise.id === id);
+  const existingExercise = exercises.find((exercise) => exercise.id === id);
   if (!existingExercise) {
     return res.status(404).json({ message: "El ejercicio no existe" });
   }
 
-  router.db.get("exercises").remoce({ id }).write();
+  const updatedExercises = exercises.filter((exercise) => exercise.id !== id);
+  router.db.assign({ exercises: updatedExercises }).write();
+  return res.status(200).json({ message: "Ejercicio borrado correctamente" });
 });
 
 // AUTENTICACIÓN DEL USUARIO

@@ -4,202 +4,197 @@ import SearchBar from "../components/SearchBar";
 import Filter from "../components/Filter";
 import type { Exercise } from "../types/exercise";
 import ExerciseCard from "../components/ExerciseCard";
-import "../pages/WorkoutExercise.css"
-import type { WorkoutExercise } from "../types/workoutExercise";
+import "../pages/WorkoutExercise.css";
+import type { WorkoutExercise as WorkoutExerciseType } from "../types/workoutExercise";
 import type { Workout } from "../types/workout";
 import WorkoutExerciseItem from "../components/WorkoutExerciseItem";
+import {
+  createWorkoutExercise,
+  deleteWorkoutExerciseById,
+  getAllExercises,
+  getWorkoutById,
+  getWorkoutExercisesByWorkoutId,
+  updateWorkoutExerciseById,
+} from "../service/workoutExerciseService";
 
 export default function WorkoutExercise() {
-    const [search, setSearch] = useState("");
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-    const [exercises, setExercises] = useState<Exercise[]>([]);                     // Listar Ejercicios
-    const [muscleGroup, setMuscleGroup] = useState("all");
-    const [order, setOrder] = useState("az");
-    const { id } = useParams();
-    const [currentWorkout, setCurrentWorkout] = useState<Workout | null>(null);     // Listar Ejercicios Entrenamiento
-    const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[]>([]);  // Añadir Ejercicio a Entrenamiento
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [actionError, setActionError] = useState("");
+  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [muscleGroup, setMuscleGroup] = useState("all");
+  const [order, setOrder] = useState("az");
+  const { id } = useParams();
+  const [currentWorkout, setCurrentWorkout] = useState<Workout | null>(null);
+  const [workoutExercises, setWorkoutExercises] = useState<WorkoutExerciseType[]>([]);
 
-    const workoutId = Number(id);
+  const workoutId = Number(id);
 
-    // COMPONENTES DE BÚSQUEDA-----------------------------------------------------------------------
-    const filteredExercises = exercises.filter((exercise) =>
-        exercise.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
-    const filterByCategory = filteredExercises.filter((exercise) => {
-        if (muscleGroup === "all") {
-            return true;
-        }
+  const filteredExercises = exercises.filter((exercise) =>
+    exercise.name.toLowerCase().includes(search.toLowerCase())
+  );
 
-        return exercise.muscleGroup.toLocaleLowerCase() === muscleGroup.toLocaleLowerCase();
-    })
-    const sortedExercises = [...filterByCategory]
-    if (order === "az") {
-        sortedExercises.sort((a, b) => a.name.localeCompare(b.name));
-    }
-    if (order === "za") {
-        sortedExercises.sort((a, b) => b.name.localeCompare(a.name));
-    }
-    const options = [
-        { value: "all", label: "Todos" },
-        { value: "pecho", label: "Pecho" },
-        { value: "espalda", label: "Espalda" },
-        { value: "pierna", label: "Pierna" },
-        { value: "biceps", label: "Biceps" },
-        { value: "triceps", label: "Triceps" },
-        { value: "hombro", label: "Hombro" },
-        { value: "core", label: "Core" }
-    ]
-    const orderOptions = [
-        { value: "az", label: "A-Z" },
-        { value: "za", label: "Z-A" },
-    ]
-
-    // PARA OBTENER ID WORKOUT----------------------------------------------------------------------
-    useEffect(() => {
-        fetch("http://localhost:8000/workouts")
-            .then((response) => response.json())
-            .then((data) => {
-                const foundWorkout = data.find((workout: Workout) => workout.id === workoutId);
-                setCurrentWorkout(foundWorkout || null);
-            });
-    }, [workoutId]);
-
-    // PARA CARGAR EJERCICIOS DEL WORKOUT ACTUAL----------------------------------------------------
-    function loadExercises() {
-        fetch("http://localhost:8000/workoutExercises").
-            then((response) => response.json()).
-            then((data) => {
-                const filteredWorkoutExercises = data.filter((item: WorkoutExercise) => item.workoutId === workoutId);
-                setWorkoutExercises(filteredWorkoutExercises);
-                setLoading(false);
-            }).
-            catch(() => {
-                setError("Error al cargar el ejercicio");
-                setLoading(false);
-            });
+  const filterByCategory = filteredExercises.filter((exercise) => {
+    if (muscleGroup === "all") {
+      return true;
     }
 
-    useEffect(() => {
-        loadExercises();
-    }, []);
+    return exercise.muscleGroup.toLowerCase() === muscleGroup.toLowerCase();
+  });
 
-    function addExercise(exercise: Exercise) {
-        console.log(workoutId, exercise.id);
-        fetch("http://localhost:8000/workoutExercises", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            }, body: JSON.stringify({
-                workoutId: workoutId,
-                exerciseId: exercise.id
-            })
-        });
-        loadExercises();
-    }
+  const sortedExercises = [...filterByCategory];
 
-    // EDITAR LOS EJERCICIOS DEL ENTRENAMIENTO
-    function updateWorkoutExercise(id: number, sets: number, reps: number, weight: number) {
-        fetch(`http://localhost:8000/workoutExercises/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            }, body: JSON.stringify({
-                sets,
-                reps,
-                weight,
-            }),
-        })
-            .then((response) => response.json())
-            .then(() => {
-                loadExercises();
-            });
-    }
+  if (order === "az") {
+    sortedExercises.sort((a, b) => a.name.localeCompare(b.name));
+  }
 
-    function handleDelete(id: number) {
-        const token = localStorage.getItem("auth_token");
-      
-        fetch(`http://localhost:8000/workoutExercises/${id}`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("No se pudo borrar");
-            }
-      
-            setWorkoutExercises((prev) => prev.filter((workoutExercise) => workoutExercise.id !== id));
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+  if (order === "za") {
+    sortedExercises.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
+  const options = [
+    { value: "all", label: "Todos" },
+    { value: "pecho", label: "Pecho" },
+    { value: "espalda", label: "Espalda" },
+    { value: "pierna", label: "Pierna" },
+    { value: "biceps", label: "Biceps" },
+    { value: "triceps", label: "Triceps" },
+    { value: "hombro", label: "Hombro" },
+    { value: "core", label: "Core" },
+  ];
+
+  const orderOptions = [
+    { value: "az", label: "A-Z" },
+    { value: "za", label: "Z-A" },
+  ];
+
+  async function loadWorkoutExercises() {
+    const data = await getWorkoutExercisesByWorkoutId(workoutId);
+    setWorkoutExercises(data);
+  }
+
+  useEffect(() => {
+    async function loadPage() {
+      try {
+        setLoading(true);
+        setError("");
+        setActionError("");
+
+        const [workoutData, exercisesData, workoutExercisesData] = await Promise.all([
+          getWorkoutById(workoutId),
+          getAllExercises(),
+          getWorkoutExercisesByWorkoutId(workoutId),
+        ]);
+
+        setCurrentWorkout(workoutData);
+        setExercises(exercisesData);
+        setWorkoutExercises(workoutExercisesData);
+      } catch (error) {
+        console.error(error);
+        setError("Error al cargar los datos del entrenamiento");
+      } finally {
+        setLoading(false);
       }
-
-    // PATA VISUALIZAR EJERCICIOS PARA AÑADIR-------------------------------------------------------
-    useEffect(() => {
-        fetch("http://localhost:8000/exercises").
-            then((response) => response.json()).
-            then((data) => {
-                setExercises(data);
-                setLoading(false);
-                console.log(id);
-            })
-            .catch(() => {
-                setError("Error al cargar los ejercicios");
-                setLoading(false);
-            });
-    }, []);
-    if (loading) {
-        return <p>Cargando ejercicios...</p>
     }
-    if (error) {
-        return <p>{error}</p>
-    }
-    if (filterByCategory.length === 0) {
-        return (
-            <>
-                <h1>Ejercicios</h1>
-                <div className="filters">
-                    <SearchBar search={search} setSearch={setSearch} />
-                    <Filter value={muscleGroup} setValue={setMuscleGroup} options={options} />
-                    <Filter value={order} setValue={setOrder} options={orderOptions} />
-                </div>
-                <p>No se encontraron ejercicios</p>
-            </>);
-    }
-    // --------------------------------------------------------------------------------------------
 
-    return (
-        <>
-            <h1> Configura tu entrenamiento</h1>
-            <h2>{currentWorkout?.title}</h2>
-            <div className="exerciseList">
-                {workoutExercises.map((workoutExercise) => {
-                    const exercise = exercises.find(
-                        (exercise) => exercise.id === workoutExercise.exerciseId);
-                    return (
-                        <WorkoutExerciseItem key={workoutExercise.id} workoutExercise={workoutExercise} onDelete={handleDelete} exerciseName={exercise?.name || "Ejercicio desconocido"}
-                            onSave={updateWorkoutExercise} />
-                    );
-                })}
+    loadPage();
+  }, [workoutId]);
 
-            </div>
-            <div>
-                Mi Lista
-            </div>
-            <div>
-                <div className="filters">
-                    <SearchBar search={search} setSearch={setSearch} />
-                    <Filter value={muscleGroup} setValue={setMuscleGroup} options={options} />
-                    <Filter value={order} setValue={setOrder} options={orderOptions} />
-                </div>
-                <div className="exerciseList">
-                    {sortedExercises.map((exercise) => (
-                        <ExerciseCard key={exercise.id} exercise={exercise} showAddButton={true} onAdd={addExercise}/>
-                    ))}
-                </div>
-            </div>
-        </>
-    )
+  async function addExercise(exercise: Exercise) {
+    try {
+      setActionError("");
+      await createWorkoutExercise(workoutId, exercise.id);
+      await loadWorkoutExercises();
+    } catch (error) {
+      console.error(error);
+      setActionError("No se pudo añadir el ejercicio al entrenamiento");
+    }
+  }
+
+  async function updateWorkoutExercise(id: number, sets: number, reps: number, weight: number) {
+    try {
+      setActionError("");
+      await updateWorkoutExerciseById(id, sets, reps, weight);
+      await loadWorkoutExercises();
+    } catch (error) {
+      console.error(error);
+      setActionError("No se pudo actualizar el ejercicio del entrenamiento");
+    }
+  }
+
+  async function handleDelete(id: number) {
+    try {
+      setActionError("");
+      await deleteWorkoutExerciseById(id);
+      setWorkoutExercises((prev) => prev.filter((workoutExercise) => workoutExercise.id !== id));
+    } catch (error) {
+      console.error(error);
+      setActionError("No se pudo borrar el ejercicio del entrenamiento");
+    }
+  }
+
+  if (loading) {
+    return <p>Cargando ejercicios...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  return (
+    <>
+      <h1>Configura tu entrenamiento</h1>
+      <h2>{currentWorkout?.title}</h2>
+
+      {actionError && <p>{actionError}</p>}
+
+      <div className="exerciseList">
+        {workoutExercises.length > 0 ? (
+          workoutExercises.map((workoutExercise) => {
+            const exercise = exercises.find(
+              (exercise) => exercise.id === workoutExercise.exerciseId
+            );
+
+            return (
+              <WorkoutExerciseItem
+                key={workoutExercise.id}
+                workoutExercise={workoutExercise}
+                onDelete={handleDelete}
+                exerciseName={exercise?.name || "Ejercicio desconocido"}
+                onSave={updateWorkoutExercise}
+              />
+            );
+          })
+        ) : (
+          <p>Este entrenamiento todavía no tiene ejercicios añadidos.</p>
+        )}
+      </div>
+
+      <div>Mi Lista</div>
+
+      <div>
+        <div className="filters">
+          <SearchBar search={search} setSearch={setSearch} />
+          <Filter value={muscleGroup} setValue={setMuscleGroup} options={options} />
+          <Filter value={order} setValue={setOrder} options={orderOptions} />
+        </div>
+
+        <div className="exerciseList">
+          {sortedExercises.length > 0 ? (
+            sortedExercises.map((exercise) => (
+              <ExerciseCard
+                key={exercise.id}
+                exercise={exercise}
+                showAddButton={true}
+                onAdd={addExercise}
+              />
+            ))
+          ) : (
+            <p>No se encontraron ejercicios</p>
+          )}
+        </div>
+      </div>
+    </>
+  );
 }
