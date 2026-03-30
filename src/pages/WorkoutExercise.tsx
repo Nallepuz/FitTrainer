@@ -97,6 +97,45 @@ export default function WorkoutExercise() {
         loadExercises();
     }
 
+    // EDITAR LOS EJERCICIOS DEL ENTRENAMIENTO
+    function updateWorkoutExercise(id: number, sets: number, reps: number, weight: number) {
+        fetch(`http://localhost:8000/workoutExercises/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            }, body: JSON.stringify({
+                sets,
+                reps,
+                weight,
+            }),
+        })
+            .then((response) => response.json())
+            .then(() => {
+                loadExercises();
+            });
+    }
+
+    function handleDelete(id: number) {
+        const token = localStorage.getItem("auth_token");
+      
+        fetch(`http://localhost:8000/workoutExercises/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("No se pudo borrar");
+            }
+      
+            setWorkoutExercises((prev) => prev.filter((workoutExercise) => workoutExercise.id !== id));
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+
     // PATA VISUALIZAR EJERCICIOS PARA AÑADIR-------------------------------------------------------
     useEffect(() => {
         fetch("http://localhost:8000/exercises").
@@ -140,7 +179,8 @@ export default function WorkoutExercise() {
                     const exercise = exercises.find(
                         (exercise) => exercise.id === workoutExercise.exerciseId);
                     return (
-                        <WorkoutExerciseItem key={workoutExercise.id} workoutExercise={workoutExercise} exerciseName={exercise?.name || "Ejercicio desconocido"} />
+                        <WorkoutExerciseItem key={workoutExercise.id} workoutExercise={workoutExercise} onDelete={handleDelete} exerciseName={exercise?.name || "Ejercicio desconocido"}
+                            onSave={updateWorkoutExercise} />
                     );
                 })}
 
@@ -156,7 +196,7 @@ export default function WorkoutExercise() {
                 </div>
                 <div className="exerciseList">
                     {sortedExercises.map((exercise) => (
-                        <ExerciseCard key={exercise.id} exercise={exercise} showAddButton={true} onAdd={addExercise} />
+                        <ExerciseCard key={exercise.id} exercise={exercise} showAddButton={true} onAdd={addExercise}/>
                     ))}
                 </div>
             </div>

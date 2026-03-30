@@ -43,6 +43,27 @@ export default function Workout() {
         { value: "Experto", label: "Experto" },
     ]
 
+    function handleDelete(id: number) {
+        const token = localStorage.getItem("auth_token");
+      
+        fetch(`http://localhost:8000/workouts/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("No se pudo borrar");
+            }
+      
+            setWorkouts((prev) => prev.filter((workouts) => workouts.id !== id));
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+
     useEffect(() => {
         fetch("http://localhost:8000/workouts").
             then((response) => response.json()).
@@ -87,7 +108,7 @@ export default function Workout() {
             </ Link>
             <div className="workout-grid">
                 {filterByLevel.map((workout) => (
-                    <WorkoutCard key={workout.id} workout={workout} />
+                    <WorkoutCard key={workout.id} workout={workout} onDelete={handleDelete} showDeleteButton={user?.role === "trainer" || user?.role === "admin"}/>
                 ))}
             </div>
         </>

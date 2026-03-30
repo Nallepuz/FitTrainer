@@ -11,7 +11,7 @@ export default function NavBar() {
         alignItems: "center",
         justifyContent: "center",
         width: "100%",
-      };
+    };
 
     const getLinkStyle = ({ isActive }: { isActive: boolean }) => ({
         color: isActive ? "var(--accent)" : "var(--text)",
@@ -30,27 +30,33 @@ export default function NavBar() {
     return (
         <nav style={navStyle}>
             <NavLink to="/" style={getLinkStyle}> Home </NavLink>
-            <NavLink to="/exercises" style={getLinkStyle}> Exercises </NavLink>
+            <NavLink to="/exercises" style={getLinkStyle}> Ejercicios </NavLink>
 
             {!user && (
                 <>
                     <NavLink to="/login" style={getLinkStyle}> Login </NavLink>
 
-                    <NavLink to="/register" style={getLinkStyle}> Register </NavLink>
+                    <NavLink to="/register" style={getLinkStyle}> Registrar </NavLink>
                 </>
             )}
             {user && (
                 <>
-                    <NavLink to="/workouts" style={getLinkStyle}> Workout </NavLink>
+                    <NavLink to="/workouts" style={getLinkStyle}> Entrenamientos </NavLink>
                     <NavLink to="/me" style={getLinkStyle}> Me </NavLink>
 
                     {user.role === "trainer" && (
-                        <NavLink to="/trainer" style={getLinkStyle}> Trainer Zone </NavLink>
+                        <>
+                        <NavLink to="/createExercise" style={getLinkStyle}> Crear Ejercicios </NavLink>
+                        </>
                     )}
                     {user.role === "admin" && (
-                        <NavLink to="/admin" style={getLinkStyle}> Admin Zone </NavLink>
+                        <>
+                        <NavLink to="/createExercise" style={getLinkStyle}> Crear Ejercicios </NavLink>
+                        </>
                     )}
-                    <button onClick={logout}>  Logout </button>
+                    <NavLink to="/">
+                        <button onClick={logout}> Logout </button>
+                    </NavLink>
                 </>
             )}
         </nav>
