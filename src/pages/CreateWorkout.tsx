@@ -5,7 +5,7 @@ import { createWorkout } from "../service/workoutService";
 export default function CreateWorkout() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [duration, setDuration] = useState("");
+  const [duration, setDuration] = useState(0);
   const [level, setLevel] = useState("Principiante");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -52,9 +52,9 @@ export default function CreateWorkout() {
 
         <h2>Duración</h2>
         <input
-          type="text"
+          type="number"
           value={duration}
-          onChange={(event) => setDuration(event.target.value)}
+          onChange={(event) => setDuration(Number(event.target.value))}
         />
 
         <h2>Dificultad</h2>

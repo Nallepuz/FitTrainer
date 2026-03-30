@@ -22,7 +22,7 @@ export async function getAllWorkouts(): Promise<Workout[]> {
 export async function createWorkout(data: {
   title: string;
   description: string;
-  duration: string;
+  duration: number;
   level: string;
 }): Promise<void> {
   const token = localStorage.getItem(TOKEN_STORAGE_KEY);
