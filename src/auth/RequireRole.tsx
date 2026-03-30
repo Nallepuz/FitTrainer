@@ -10,7 +10,11 @@ export default function RequireRole({
   children: ReactNode;
   allowedRoles: AppRole[];
 }) {
-  const { token, user } = useAuth();
+  const { token, user, loadingSession } = useAuth();
+
+  if (loadingSession) {
+    return <p style={{ textAlign: "center", marginTop: "30px" }}>Cargando sesión...</p>;
+  }
 
   if (!token) {
     return <Navigate to="/login" replace />;

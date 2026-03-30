@@ -31,15 +31,14 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/exercises" element={<ExercisesPage />} />
-              <Route path="/createExercise" element={<CreateExercise />} />
-              <Route path="/workouts" element={<Workout />} />
-              <Route path="/workoutsExercises/:id" element={<WorkoutExercise />} />
-              <Route path="/workouts/new" element={<CreateWorkout />} />
 
               <Route path="/me" element={<RequireAuth> <MePage /> </RequireAuth>} />
-              <Route path="/admin" element={<RequireAuth> <RequireRole allowedRoles={["admin"]}><AdminPage />
-              </RequireRole>
-              </RequireAuth>} />
+              <Route path="/createExercise" element={<RequireAuth><RequireRole allowedRoles={["admin", "trainer"]}><CreateExercise /></RequireRole></RequireAuth>} />
+              <Route path="/workouts" element={<RequireAuth> <Workout /> </RequireAuth>} />
+              <Route path="/workoutsExercises/:id" element={<RequireAuth><WorkoutExercise /></RequireAuth>} />
+              <Route path="/workouts/new" element={<RequireAuth><CreateWorkout /></RequireAuth>} />
+
+              <Route path="/admin" element={<RequireAuth> <RequireRole allowedRoles={["admin"]}><AdminPage /></RequireRole></RequireAuth>} />
             </Routes>
           </main>
         </div>

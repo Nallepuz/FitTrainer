@@ -14,6 +14,28 @@ export async function getAllWorkouts(): Promise<Workout[]> {
   return data;
 }
 
+export async function createWorkout(data: {
+  title: string;
+  description: string;
+  duration: string;
+  level: string;
+}): Promise<void> {
+  const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+
+  const response = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("No se ha podido crear el entrenamiento");
+  }
+}
+
 export async function deleteWorkout(id: number): Promise<void> {
   const token = localStorage.getItem(TOKEN_STORAGE_KEY);
 
