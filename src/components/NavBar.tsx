@@ -54,6 +54,7 @@ export default function NavBar() {
                         <NavLink to="/createExercise" style={getLinkStyle}> Crear Ejercicios </NavLink>
                         </>
                     )}
+                    <NavLink to="/dashboard" style={getLinkStyle}> Dashboard </NavLink>
                     <NavLink to="/">
                         <button onClick={logout}> Logout </button>
                     </NavLink>

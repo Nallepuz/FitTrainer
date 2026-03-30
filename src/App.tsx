@@ -15,6 +15,7 @@ import Workout from "./pages/Workout";
 import CreateWorkout from "./pages/CreateWorkout";
 import WorkoutExercise from "./pages/WorkoutExercise";
 import CreateExercise from "./pages/CreateExercise";
+import Dashboard from "./pages/Dashboard";
 
 
 
@@ -33,6 +34,7 @@ export default function App() {
               <Route path="/exercises" element={<ExercisesPage />} />
 
               <Route path="/me" element={<RequireAuth> <MePage /> </RequireAuth>} />
+              <Route path="/dashboard" element={<RequireAuth> <Dashboard /> </RequireAuth>} />
               <Route path="/createExercise" element={<RequireAuth><RequireRole allowedRoles={["admin", "trainer"]}><CreateExercise /></RequireRole></RequireAuth>} />
               <Route path="/workouts" element={<RequireAuth> <Workout /> </RequireAuth>} />
               <Route path="/workoutsExercises/:id" element={<RequireAuth><WorkoutExercise /></RequireAuth>} />
