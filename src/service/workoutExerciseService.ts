@@ -1,10 +1,17 @@
 import type { WorkoutExercise } from "../types/workoutExercise";
 
-const API_BASE_URL = "http://localhost:8000/workoutExercises";
+// URL Y TOKEN
+const API_BASE_URL = "http://localhost:8000";
 const TOKEN_STORAGE_KEY = "auth_token";
 
+// FUNCION AUXILIAR PARA OBTENER EL TOKEN
+function getAuthToken(): string | null {
+  return localStorage.getItem(TOKEN_STORAGE_KEY);
+}
+
+// OBTENER LOS EJERCICIOS DE UN WORKOUT
 export async function getWorkoutExercisesByWorkoutId(workoutId: number): Promise<WorkoutExercise[]> {
-  const response = await fetch(API_BASE_URL);
+  const response = await fetch(`${API_BASE_URL}/workoutExercises`);
 
   if (!response.ok) {
     throw new Error("No se pudieron cargar los ejercicios del entrenamiento");
@@ -14,11 +21,15 @@ export async function getWorkoutExercisesByWorkoutId(workoutId: number): Promise
   return data.filter((item) => item.workoutId === workoutId);
 }
 
+// AÑADIR UN EJERCICIO A UN WORKOUT
 export async function createWorkoutExercise(workoutId: number, exerciseId: number): Promise<WorkoutExercise> {
-  const response = await fetch(API_BASE_URL , {
+  const token = getAuthToken();
+
+  const response = await fetch(`${API_BASE_URL}/workoutExercises`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       workoutId,
@@ -33,16 +44,20 @@ export async function createWorkoutExercise(workoutId: number, exerciseId: numbe
   return response.json();
 }
 
+// ACTUALIZAR UN EJERCICIO DE UN WORKOUT
 export async function updateWorkoutExerciseById(
   id: number,
   sets: number,
   reps: number,
   weight: number
 ): Promise<WorkoutExercise> {
-  const response = await fetch(API_BASE_URL , {
+  const token = getAuthToken();
+
+  const response = await fetch(`${API_BASE_URL}/workoutExercises/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       sets,
@@ -58,10 +73,11 @@ export async function updateWorkoutExerciseById(
   return response.json();
 }
 
+// BORRAR UN EJERCICIO DE UN WORKOUT
 export async function deleteWorkoutExerciseById(id: number): Promise<void> {
-  const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+  const token = getAuthToken();
 
-  const response = await fetch(API_BASE_URL , {
+  const response = await fetch(`${API_BASE_URL}/workoutExercises/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

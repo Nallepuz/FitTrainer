@@ -16,15 +16,9 @@
     },
     {
       "id": 3,
+      "image": "",
       "name": "Prueba",
       "email": "prueba@fittrainer.com",
-      "password": "1234",
-      "role": "user"
-    },
-    {
-      "id": 4,
-      "name": "Prueba2",
-      "email": "prueba2@fittrainer.com",
       "password": "1234",
       "role": "user"
     },
@@ -39,6 +33,13 @@
       "id": 6,
       "name": "david",
       "email": "david@fittrainer.com",
+      "password": "1234",
+      "role": "user"
+    },
+    {
+      "id": 7,
+      "name": "Ana ",
+      "email": "ana@fittrainer.com",
       "password": "1234",
       "role": "user"
     }
@@ -173,6 +174,14 @@
       "duration": 38,
       "level": "Principiante",
       "userId": 2
+    },
+    {
+      "id": 7,
+      "title": "Entrenamiento Casa",
+      "description": "Para casa",
+      "duration": 60,
+      "level": "Principiante",
+      "userId": 7
     }
   ],
   "workoutExercises": [
@@ -207,6 +216,70 @@
       "sets": 23,
       "reps": 23,
       "weight": 3
+    },
+    {
+      "id": 11,
+      "workoutId": 5,
+      "exerciseId": 7,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 12,
+      "workoutId": 5,
+      "exerciseId": 8,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 13,
+      "workoutId": 5,
+      "exerciseId": 12,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 14,
+      "workoutId": 5,
+      "exerciseId": 3,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 15,
+      "workoutId": 5,
+      "exerciseId": 10,
+      "sets": 3,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 16,
+      "workoutId": 7,
+      "exerciseId": 8,
+      "sets": 2,
+      "reps": 8,
+      "weight": 0
+    },
+    {
+      "id": 17,
+      "workoutId": 7,
+      "exerciseId": 15,
+      "sets": 123,
+      "reps": 10,
+      "weight": 0
+    },
+    {
+      "id": 18,
+      "workoutId": 7,
+      "exerciseId": 5,
+      "sets": 7,
+      "reps": 200,
+      "weight": 0
     }
   ]
 }

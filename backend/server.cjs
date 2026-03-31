@@ -56,20 +56,18 @@ function requireRole(...allowedRoles) {
 
 // USERS -------------------------------------------------------------------------------------------------------
 function getUsers() {
-  const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
-  return db.users || [];
+  return router.db.get("users").value() || [];
 }
 
 function saveUsers(updatedUsers) {
-  const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
-  db.users = updatedUsers;
-  fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
+  router.db.set("users", updatedUsers).write();
 }
 
 function findUser(email, password) {
-  return getUsers().find(
-    (user) => user.email === email && user.password === password
-  );
+  return router.db
+    .get("users")
+    .find({ email, password })
+    .value();
 }
 
 server.get("/users", authenticateToken, requireRole("admin"), (req, res) => {
@@ -273,7 +271,7 @@ server.delete("/exercises/:id", authenticateToken, requireRole("trainer", "admin
 
 // LOGIN -------------------------------------------------------------------------------------------------------
 server.post("/auth/register", (req, res) => {
-  const { name, email, password } = req.body;
+  const { image, name, email, password } = req.body;
   const users = getUsers();
 
   const existingUser = users.find((user) => user.email === email);
@@ -286,6 +284,7 @@ server.post("/auth/register", (req, res) => {
 
   const newUser = {
     id: lastItemId + 1,
+    image,
     name,
     email,
     password,
@@ -294,7 +293,6 @@ server.post("/auth/register", (req, res) => {
 
   users.push(newUser);      // Lo añade al final del array
   saveUsers(users);         // Lo guarda en el db.Json
-
 
   const access_token = createToken({    // Crea el token al registrarse redireccionando
     id: newUser.id,
@@ -333,7 +331,6 @@ server.get("/me", authenticateToken, (req, res) => {
   });
 });
 // -------------------------------------------------------------------------------------------------------------
-
 
 server.use(router);
 

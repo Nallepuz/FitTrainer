@@ -1,0 +1,173 @@
+.home-page {
+    min-height: 100%;
+    padding: 40px 20px 60px;
+    color: #f5efe6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+  }
+  
+  .hero-section {
+    width: 100%;
+    max-width: 1100px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+  
+  .hero-title {
+    margin: 0;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #f5efe6;
+  }
+  
+  .hero-subtitle {
+    max-width: 760px;
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #cdd6dd;
+  }
+  
+  .hero-image-box {
+    width: 100%;
+    max-width: 900px;
+    background: linear-gradient(145deg, #1b2028, #141922);
+    border: 1px solid rgba(46, 207, 218, 0.18);
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  }
+  
+  .hero-image {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+  }
+  
+  .opinions-section {
+    width: 100%;
+    max-width: 950px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .opinions-title {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f5efe6;
+    text-align: center;
+  }
+  
+  .carousel-box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+  
+  .comment-card {
+    flex: 1;
+    min-height: 190px;
+    background: linear-gradient(145deg, #1b2028, #141922);
+    border: 1px solid rgba(46, 207, 218, 0.18);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .comment-text {
+    margin: 0 0 20px 0;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #eef3f6;
+  }
+  
+  .comment-author {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #85d84a;
+  }
+  
+  .carousel-button {
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2ecfda, #85d84a);
+    color: #10151b;
+    font-size: 1.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  }
+  
+  .carousel-button:hover {
+    transform: scale(1.08);
+    opacity: 0.92;
+  }
+  
+  .carousel-dots {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background-color: #4b5661;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  .dot:hover {
+    transform: scale(1.1);
+  }
+  
+  .active-dot {
+    background-color: #2ecfda;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.2rem;
+    }
+  
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+  
+    .hero-image {
+      height: 260px;
+    }
+  
+    .carousel-box {
+      flex-direction: column;
+    }
+  
+    .comment-card {
+      width: 100%;
+      min-height: 220px;
+    }
+  
+    .carousel-button {
+      width: 46px;
+      height: 46px;
+    }
+  }

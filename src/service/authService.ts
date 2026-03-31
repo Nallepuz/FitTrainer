@@ -1,17 +1,14 @@
 import type { AuthUser, LoginRequest, RegisterRequest } from "../types/auth";
 
-// TIPOS DE RESPUESTA DEL LOGIN / REGISTER
 type LoginResponse = {
   token?: string;
   access_token?: string;
   jwt?: string;
 };
 
-// URL Y TOKEN
 const API_BASE_URL = "http://localhost:8000/auth";
 const TOKEN_STORAGE_KEY = "auth_token";
 
-// FUNCION PARA EXTRAER EL TOKEN
 function extractToken(data: LoginResponse): string {
   const token = data.token ?? data.access_token ?? data.jwt;
 
@@ -22,7 +19,6 @@ function extractToken(data: LoginResponse): string {
   return token;
 }
 
-// GUARDAR / VER / BORRAR TOKEN EN LOCALSTORAGE
 export function saveToken(token: string): void {
   localStorage.setItem(TOKEN_STORAGE_KEY, token);
 }
@@ -35,7 +31,6 @@ export function clearToken(): void {
   localStorage.removeItem(TOKEN_STORAGE_KEY);
 }
 
-// PETICION DE LOGIN
 export async function loginRequest(payload: LoginRequest): Promise<string> {
   const response = await fetch(`${API_BASE_URL}/login`, {
     method: "POST",
@@ -53,7 +48,6 @@ export async function loginRequest(payload: LoginRequest): Promise<string> {
   return extractToken(data);
 }
 
-// PETICION DE REGISTRO
 export async function registerRequest(payload: RegisterRequest): Promise<string> {
   const response = await fetch(`${API_BASE_URL}/register`, {
     method: "POST",
@@ -71,9 +65,8 @@ export async function registerRequest(payload: RegisterRequest): Promise<string>
   return extractToken(data);
 }
 
-// PETICION PARA OBTENER EL USUARIO AUTENTICADO
 export async function meRequest(token: string): Promise<AuthUser> {
-  const response = await fetch(`${API_BASE_URL}/me`, {
+  const response = await fetch("http://localhost:8000/me", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
