@@ -1,35 +1,10 @@
-import type { Workout } from "../types/workout";
-import type { Exercise } from "../types/exercise";
 import type { WorkoutExercise } from "../types/workoutExercise";
 
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = "http://localhost:8000/workoutExercises";
 const TOKEN_STORAGE_KEY = "auth_token";
 
-export async function getAllExercises(): Promise<Exercise[]> {
-  const response = await fetch(`${API_BASE_URL}/exercises`);
-
-  if (!response.ok) {
-    throw new Error("No se pudieron cargar los ejercicios");
-  }
-
-  return response.json();
-}
-
-export async function getWorkoutById(workoutId: number): Promise<Workout | null> {
-  const response = await fetch(`${API_BASE_URL}/workouts`);
-
-  if (!response.ok) {
-    throw new Error("No se pudo cargar el entrenamiento");
-  }
-
-  const workouts: Workout[] = await response.json();
-  const workout = workouts.find((item) => item.id === workoutId);
-
-  return workout || null;
-}
-
 export async function getWorkoutExercisesByWorkoutId(workoutId: number): Promise<WorkoutExercise[]> {
-  const response = await fetch(`${API_BASE_URL}/workoutExercises`);
+  const response = await fetch(API_BASE_URL);
 
   if (!response.ok) {
     throw new Error("No se pudieron cargar los ejercicios del entrenamiento");
@@ -40,7 +15,7 @@ export async function getWorkoutExercisesByWorkoutId(workoutId: number): Promise
 }
 
 export async function createWorkoutExercise(workoutId: number, exerciseId: number): Promise<WorkoutExercise> {
-  const response = await fetch(`${API_BASE_URL}/workoutExercises`, {
+  const response = await fetch(API_BASE_URL , {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -64,7 +39,7 @@ export async function updateWorkoutExerciseById(
   reps: number,
   weight: number
 ): Promise<WorkoutExercise> {
-  const response = await fetch(`${API_BASE_URL}/workoutExercises/${id}`, {
+  const response = await fetch(API_BASE_URL , {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -86,7 +61,7 @@ export async function updateWorkoutExerciseById(
 export async function deleteWorkoutExerciseById(id: number): Promise<void> {
   const token = localStorage.getItem(TOKEN_STORAGE_KEY);
 
-  const response = await fetch(`${API_BASE_URL}/workoutExercises/${id}`, {
+  const response = await fetch(API_BASE_URL , {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

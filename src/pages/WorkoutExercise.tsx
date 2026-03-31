@@ -8,11 +8,11 @@ import "../pages/WorkoutExercise.css";
 import type { WorkoutExercise as WorkoutExerciseType } from "../types/workoutExercise";
 import type { Workout } from "../types/workout";
 import WorkoutExerciseItem from "../components/WorkoutExerciseItem";
+import { getAllExercises } from "../service/exerciseService";
+import { getWorkoutById } from "../service/workoutService";
 import {
   createWorkoutExercise,
   deleteWorkoutExerciseById,
-  getAllExercises,
-  getWorkoutById,
   getWorkoutExercisesByWorkoutId,
   updateWorkoutExerciseById,
 } from "../service/workoutExerciseService";
