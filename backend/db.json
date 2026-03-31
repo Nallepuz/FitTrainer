@@ -42,6 +42,13 @@
       "email": "ana@fittrainer.com",
       "password": "1234",
       "role": "user"
+    },
+    {
+      "id": 8,
+      "name": "Kipi",
+      "email": "kipi@fittrainer.com",
+      "password": "1234",
+      "role": "user"
     }
   ],
   "exercises": [
@@ -182,6 +189,14 @@
       "duration": 60,
       "level": "Principiante",
       "userId": 7
+    },
+    {
+      "id": 8,
+      "title": "ENtrenamiento Un Poquet",
+      "description": "Un poquet",
+      "duration": 60,
+      "level": "Principiante",
+      "userId": 8
     }
   ],
   "workoutExercises": [
@@ -279,6 +294,30 @@
       "exerciseId": 5,
       "sets": 7,
       "reps": 200,
+      "weight": 0
+    },
+    {
+      "id": 19,
+      "workoutId": 8,
+      "exerciseId": 7,
+      "sets": 2,
+      "reps": 10,
+      "weight": 10
+    },
+    {
+      "id": 20,
+      "workoutId": 8,
+      "exerciseId": 12,
+      "sets": 2,
+      "reps": 10,
+      "weight": 10
+    },
+    {
+      "id": 21,
+      "workoutId": 8,
+      "exerciseId": 1,
+      "sets": 3,
+      "reps": 10,
       "weight": 0
     }
   ]
