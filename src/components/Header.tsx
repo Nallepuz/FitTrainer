@@ -1,3 +1,4 @@
+import logoFit from "../assets/logo fit.png";
 
 export default function Header() {
   return (
@@ -11,11 +12,10 @@ export default function Header() {
       alignItems: 'center',
       justifyContent: 'center',
     }} >
-      <h1 style={{ margin: 0, fontSize: "24px" }}>
-        FitTrainer
-      </h1>
-      <p style={{ margin: 0, fontSize: "14px" }}>
-      </p>
+      <img
+            src={logoFit}
+            style= {{width:"350px"}}
+          />
     </header>
   );
 }

@@ -22,23 +22,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: #ff6b4a;
-  color: #ffffff;
+  background: linear-gradient(135deg, #2ecfda, #85d84a);
+  color: #10151b;
   text-decoration: none;
   border-radius: 10px;
   padding: 10px 18px;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   margin: 18px 0 28px;
 }
 
 .button:hover {
-  opacity: 0.9;
+  opacity: 0.95;
   transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(46, 207, 218, 0.18);
 }
 
 .button:active {
