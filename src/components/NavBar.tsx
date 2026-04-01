@@ -66,50 +66,32 @@ export default function NavBar() {
 
   return (
     <nav style={navStyle}>
-      <NavLink to="/" style={getLinkStyle}>
-        Home
-      </NavLink>
+      <NavLink to="/" style={getLinkStyle}>Home</NavLink>
 
-      <NavLink to="/exercises" style={getLinkStyle}>
-        Ejercicios
-      </NavLink>
+      <NavLink to="/exercises" style={getLinkStyle}>Ejercicios</NavLink>
 
       {!user && (
         <>
-          <NavLink to="/login" style={getLinkStyle}>
-            Login
-          </NavLink>
+          <NavLink to="/login" style={getLinkStyle}>Login</NavLink>
 
-          <NavLink to="/register" style={getLinkStyle}>
-            Registrar
-          </NavLink>
+          <NavLink to="/register" style={getLinkStyle}>Registrar</NavLink>
         </>
       )}
 
       {user && (
         <>
-          <NavLink to="/workouts" style={getLinkStyle}>
-            Entrenamientos
-          </NavLink>
+          <NavLink to="/workouts" style={getLinkStyle}>Entrenamientos</NavLink>
 
-          <NavLink to="/me" style={getLinkStyle}>
-            Me
-          </NavLink>
+          <NavLink to="/me" style={getLinkStyle}>Me</NavLink>
 
           {(user.role === "trainer" || user.role === "admin") && (
-            <NavLink to="/createExercise" style={getLinkStyle}>
-              Crear Ejercicios
-            </NavLink>
+            <NavLink to="/createExercise" style={getLinkStyle}>Crear Ejercicios</NavLink>
           )}
 
-          <NavLink to="/dashboard" style={getLinkStyle}>
-            Dashboard
-          </NavLink>
+          <NavLink to="/dashboard" style={getLinkStyle}>Dashboard</NavLink>
 
           <NavLink to="/" style={navLinkWrapperStyle}>
-            <button onClick={logout} style={logoutButtonStyle}>
-              Logout
-            </button>
+            <button onClick={logout} style={logoutButtonStyle}>Logout</button>
           </NavLink>
         </>
       )}

@@ -1,4 +1,3 @@
-const fs = require("fs");                                     // Sirve para leer y esscribir archivos
 const path = require("path");
 const jsonServer = require('json-server')                     // Crea una API REST a partir de un Json (db.json)
 const jwt = require("jsonwebtoken");                          // Crear y verificar token
@@ -80,8 +79,7 @@ server.get("/users", authenticateToken, requireRole("admin"), (req, res) => {
 
 // WORKOUTS ----------------------------------------------------------------------------------------------------
 function getWorkouts() {
-  const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
-  return db.workouts || [];
+  return router.db.get("workouts").value() || [];
 }
 
 server.get("/workouts", authenticateToken, requireRole("admin", "trainer", "user"), (req, res) => {
@@ -218,8 +216,7 @@ server.delete("/workoutExercises/:id", authenticateToken, (req, res) => {
 
 // EJERCICIOS --------------------------------------------------------------------------------------------------
 function getExercises() {
-  const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
-  return db.exercises || [];
+  return router.db.get("exercises").value() || [];
 }
 
 server.get("/exercises", (req, res) => {
@@ -301,7 +298,7 @@ server.post("/auth/register", (req, res) => {
     role: newUser.role
   });
 
-  return res.status(200).json({ access_token });
+  return res.status(201).json({ access_token });
 });
 
 server.post("/auth/login", (req, res) => {
