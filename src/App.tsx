@@ -7,7 +7,6 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MePage from "./pages/MePage";
-import AdminPage from "./pages/AdminPage";
 import RequireAuth from "./auth/RequireAuth";
 import RequireRole from "./auth/RequireRole";
 import ExercisesPage from "./pages/ExercisesPage";
@@ -40,7 +39,6 @@ export default function App() {
               <Route path="/workoutsExercises/:id" element={<RequireAuth><WorkoutExercise /></RequireAuth>} />
               <Route path="/workouts/new" element={<RequireAuth><CreateWorkout /></RequireAuth>} />
 
-              <Route path="/admin" element={<RequireAuth> <RequireRole allowedRoles={["admin"]}><AdminPage /></RequireRole></RequireAuth>} />
             </Routes>
           </main>
         </div>
