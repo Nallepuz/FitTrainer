@@ -4,7 +4,6 @@ import { useAuth } from "../context/authContext";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event"
 import NavBar from "./NavBar";
-import { Buttons } from "@testing-library/user-event/dist/cjs/system/pointer/buttons.js";
 
 vi.mock("../context/authContext", () => ({
     useAuth: vi.fn(() => ({
