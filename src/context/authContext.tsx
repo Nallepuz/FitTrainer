@@ -1,7 +1,8 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode, } from "react";
-import type { AuthUser, LoginRequest, RegisterRequest, } from "../types/auth";
-import {clearToken,getToken,loginRequest,meRequest,registerRequest,saveToken,} from "../service/authService";
+import { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from "react";
+import type { AuthUser, LoginRequest, RegisterRequest } from "../types/auth";
+import { clearToken, getToken, loginRequest, meRequest, registerRequest, saveToken } from "../service/authService";
 
+// TYPES ----------------------------------------------------------------------------------------------------------------
 type AuthContextType = {
     user: AuthUser | null;
     token: string | null;
@@ -11,32 +12,62 @@ type AuthContextType = {
     logout: () => void;
 };
 
+type AuthState = {
+    user: AuthUser | null;
+    token: string | null;
+    loadingSession: boolean;
+};
+
+type AuthAction =
+    | { type: "LOGIN"; payload: { user: AuthUser; token: string } }
+    | { type: "LOGOUT" }
+    | { type: "SET_LOADING"; payload: boolean }
+    | { type: "RESTORE_SESSION"; payload: { user: AuthUser; token: string } }
+    | { type: "RESTORE_SESSION_FAILED" };
+
+// REDUCER -------------------------------------------------------------------------------------------------------
+function authReducer(state: AuthState, action: AuthAction): AuthState {
+    switch (action.type) {
+        case "LOGIN":
+            return { ...state, user: action.payload.user, token: action.payload.token };
+        case "LOGOUT":
+            return { ...state, user: null, token: null };
+        case "SET_LOADING":
+            return { ...state, loadingSession: action.payload };
+        case "RESTORE_SESSION":
+            return { ...state, user: action.payload.user, token: action.payload.token, loadingSession: false };
+        case "RESTORE_SESSION_FAILED":
+            return { ...state, user: null, token: null, loadingSession: false };
+        default:
+            return state;
+    }
+}
+
+// CONTEXT ------------------------------------------------------------------------------------------------------
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<AuthUser | null>(null);
-    const [token, setToken] = useState<string | null>(getToken());
-    const [loadingSession, setLoadingSession] = useState(true);
+    const [state, dispatch] = useReducer(authReducer, {
+        user: null,
+        token: getToken(),
+        loadingSession: true,
+    });
 
     useEffect(() => {
         const restoreSession = async () => {
             const savedToken = getToken();
 
             if (!savedToken) {
-                setLoadingSession(false);
+                dispatch({ type: "SET_LOADING", payload: false });
                 return;
             }
 
             try {
                 const currentUser = await meRequest(savedToken);
-                setUser(currentUser);
-                setToken(savedToken);
+                dispatch({ type: "RESTORE_SESSION", payload: { user: currentUser, token: savedToken } });
             } catch {
                 clearToken();
-                setUser(null);
-                setToken(null);
-            } finally {
-                setLoadingSession(false);
+                dispatch({ type: "RESTORE_SESSION_FAILED" });
             }
         };
 
@@ -47,36 +78,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const newToken = await loginRequest(data);
         saveToken(newToken);
         const currentUser = await meRequest(newToken);
-
-        setToken(newToken);
-        setUser(currentUser);
+        dispatch({ type: "LOGIN", payload: { user: currentUser, token: newToken } });
     };
 
     const register = async (data: RegisterRequest) => {
         const newToken = await registerRequest(data);
         saveToken(newToken);
         const currentUser = await meRequest(newToken);
-
-        setToken(newToken);
-        setUser(currentUser);
+        dispatch({ type: "LOGIN", payload: { user: currentUser, token: newToken } });
     };
 
     const logout = () => {
         clearToken();
-        setUser(null);
-        setToken(null);
+        dispatch({ type: "LOGOUT" });
     };
 
     const value = useMemo(
         () => ({
-            user,
-            token,
-            loadingSession,
+            user: state.user,
+            token: state.token,
+            loadingSession: state.loadingSession,
             login,
             register,
             logout,
         }),
-        [user, token, loadingSession]
+        [state.user, state.token, state.loadingSession]
     );
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
