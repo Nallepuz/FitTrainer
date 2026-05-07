@@ -51,9 +51,7 @@ src/
 - **JWT para autenticación**: Se implementó autenticación con tokens JWT para proteger los endpoints y gestionar roles de usuario.
 
 - **Contexto de autenticación**: Se centralizó toda la lógica de autenticación en un `AuthProvider` con un hook `useAuth` para que cualquier componente pueda acceder al estado de sesión sin prop drilling.
-
 - **useReducer en el contexto de autenticación**: Se utilizó `useReducer` en lugar de múltiples `useState` para gestionar el estado global de autenticación (`user`, `token`, `loadingSession`). Este patrón centraliza todas las transiciones de estado en un único reducer con acciones explícitas (`LOGIN`, `LOGOUT`, `RESTORE_SESSION`), lo que hace el código más predecible y fácil de mantener. Cada acción describe semánticamente qué ocurrió, en vez de tener múltiples llamadas a `setState` dispersas por el código.
-
 - **Componentes reutilizables**: Se extrajeron componentes como `SearchBar`, `Filter`, `ExerciseCard` y `WorkoutCard` para evitar repetición de código.
 
 - **Ordenación sin componente separado**: Se decidió no extraer la lógica de ordenación a un componente independiente porque cada página filtra por campos distintos (`muscleGroup`, `level`, `role`) con criterios de ordenación diferentes. Extraerlo a un componente genérico hubiera requerido demasiadas props y reducido la legibilidad. Los componentes `SearchBar` y `Filter` ya cubren la parte visual reutilizable, mientras que la lógica específica de cada página permanece donde tiene contexto.

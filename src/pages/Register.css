@@ -1,0 +1,82 @@
+div:has(> form input[placeholder="Nombre"]) {
+    width: 100%;
+    max-width: 430px;
+    margin: 70px auto 70px;
+    padding: 38px 34px;
+    background: #1b242d;
+    border: 1px solid rgba(119, 255, 67, 0.18);
+    border-radius: 18px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    text-align: center;
+    box-sizing: border-box;
+  }
+  
+  div:has(> form input[placeholder="Nombre"]) h1 {
+    margin: 0 0 32px;
+    font-size: 2.2rem;
+    color: #ffffff;
+    font-weight: 800;
+  }
+  
+  div:has(> form input[placeholder="Nombre"]) form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  
+  div:has(> form input[placeholder="Nombre"]) input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 15px;
+    background: #111820;
+    border: 1px solid #2e3a45;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  div:has(> form input[placeholder="Nombre"]) input::placeholder {
+    color: #7f8b96;
+  }
+  
+  div:has(> form input[placeholder="Nombre"]) input:focus {
+    border-color: #77ff43;
+    box-shadow: 0 0 0 3px rgba(119, 255, 67, 0.12);
+  }
+  
+  div:has(> form input[placeholder="Nombre"]) button {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 8px;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #77ff43, #16b8ff);
+    color: #101820;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  div:has(> form input[placeholder="Nombre"]) button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(119, 255, 67, 0.25);
+  }
+  
+  div:has(> form input[placeholder="Nombre"]) button:active {
+    transform: translateY(0);
+  }
+  
+  div:has(> form input[placeholder="Nombre"]) p {
+    margin-top: 22px;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255, 76, 76, 0.12);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 76, 76, 0.25);
+    font-weight: 600;
+  }
